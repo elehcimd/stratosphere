@@ -32,7 +32,7 @@ def start(ctx):
     with ctx.cd(project_dir):
         local(
             ctx,
-            f"docker run --rm --name {project_name} -d -ti -p 127.0.0.1:8080:8080 -p 127.0.0.1:8082:8082 -v"
+            f"docker run --rm --name {project_name} -d -ti -p 8080:8080 -p 127.0.0.1:8082:8082 -v"
             f" {project_dir}/:/shared -t {project_name}".format(project_dir=project_dir),
         )
 

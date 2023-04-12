@@ -1,8 +1,67 @@
-# Stratosphere project
+# **stratosphere** project
+
+**Stratosphere** is a free and open source OSINT platform that automatically collects and analyses every page you visit, building an internal knowledge base you can explore with a suite of web apps:
+
+* **Google sarch results**: Keep track of your searches
+* **vk.com contacts explorer**: Explore previously seen vk.com contacts, highlighting their connections
+* **Entity overview**: Navigate the knowledge base through entities and relationships
+
+---
 
 ## Getting started
 
 ### 1. Install Docker
 
-Docker is an open platform for developing, shipping, and running applications.
+You must install Docker. Docker is an open platform for developing, shipping, and running applications.
 You can follow the installation instructions on the [official website](https://docs.docker.com/get-docker/).
+
+### 2. Install the Docker image
+
+Execute from the command line:
+
+```
+docker pull micheda/stratosphere-app:latest
+```
+
+### 3. Start the Docker container
+
+Execute from the command line:
+
+```
+docker run --rm --name stratosphere-app -p 8080:8080 -p 127.0.0.1:8082:8082 micheda/stratosphere-app:latest
+```
+
+### 4. Configure your browser or device
+
+You need to configure your browser or device to route all traffic through the HTTP proxy listening on http://localhost:8080.
+I personally use FoxyProxy, a browser extension that let you quickly switch between different proxy settings:
+
+* [Firefox](https://addons.mozilla.org/it/firefox/addon/foxyproxy-standard/)
+* [Chrome, Brave](https://chrome.google.com/webstore/detail/foxyproxy-standard/gcknhkkoolaabfmlnjonogaaifnjlfnp?hl=it)
+
+Browser versions and configurations options frequently change, so we recommend to simply search the web on how to configure an HTTP proxy for your system. Some operating system have a global settings, some browser have their own, other applications use environment variables, etc.
+
+**Check**: You can check that your web traffic is going through mitmproxy by browsing to http://mitm.it - it should present you with a simple page to install the mitmproxy Certificate Authority - which is also the next step. Follow the instructions for your OS / system and install the CA.
+
+### 5. Verifying everything works
+
+You can test that the system is working properly by browsing to http://mitm.it and verifying the presence of the text "[Tracked!]" on the top left corner of the page. Congratulations! **Stratosphere** is up and working. You can now access the dashboard by clicking on it (or [here](http://127.0.0.1:8082)).
+
+You can always check if the system is tracking properly by verifying the presence of the top-left banner.
+
+
+## Core concepts
+
+## Internals
+
+How does it work? The system relies on [mitmproxy](https://mitmproxy.org/) to intercept your web traffic (both desktop and mobile), building a knowledge base with [SQLite](https://sqlite.org/) that is later accessed by a suite of web apps built with [Jupyter](https://jupyter.org/) and [Voilà](https://voila.readthedocs.io/en/stable/). The architecture is cross platform and runs locally inside a Docker container.
+
+
+
+Some useful options if you want to customise it:
+
+* [--rm](https://docs.docker.com/engine/reference/run/#clean-up---rm): Docker will automatically clean up the container and remove the file system when the container exits. If you want to retain the container’s file system, remove `--rm`.
+* [-p](https://docs.docker.com/engine/reference/run/#expose-incoming-ports): Publish the container's port on the host. The format is `host_ip:host_port:container_port`. If you drop the `host_ip`, the port will be published on all interfaces. By default, the proxy runs on all intefaces, but the web interface is accessible only from localhost.
+* [--name](https://docs.docker.com/engine/reference/run/#name---name): Name your container. 
+* [-d](https://docs.docker.com/engine/reference/run/#detached-vs-foreground): Start the container in background.
+* [-it](https://docs.docker.com/engine/reference/run/#foreground): Allocate a pseudo-tty and keep STDIN open even if not attached. Useful if you want to access directly the container from terminal, via `docker execute`.
