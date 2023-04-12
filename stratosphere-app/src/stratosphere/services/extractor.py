@@ -1,15 +1,13 @@
+import os
 import time
 
-from stratosphere.utils.log import logger, init_logging
 from stratosphere.options import options
-from stratosphere.stratosphere import Stratosphere
-from stratosphere.storage.models import Flow
-
-from stratosphere.services.extractors.vk01 import extractor as extractor_vk01
-from stratosphere.services.extractors.search_google import extractor as extractor_search_google
 from stratosphere.services.extractors.dummy import extractor as dummy_extract
-
-import os
+from stratosphere.services.extractors.search_google import extractor as extractor_search_google
+from stratosphere.services.extractors.vk01 import extractor as extractor_vk01
+from stratosphere.storage.models import Flow
+from stratosphere.stratosphere import Stratosphere
+from stratosphere.utils.log import init_logging, logger
 
 
 class Extractor:

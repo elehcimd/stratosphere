@@ -1,10 +1,9 @@
-import uuid
+import datetime
 import json
+import re
 
 from stratosphere import Stratosphere
 from stratosphere.storage.models import Flow
-import datetime
-import re
 
 
 async def response(flow):
@@ -45,8 +44,9 @@ async def response(flow):
                 )
                 session.add(record)
                 session.commit()
-        except:
-            # It might happen that the extractor just dropped the file ... this causes an error (table not found, ...). We try again.
+        except:  # noqa
+            # It might happen that the extractor just dropped the file ...
+            # this causes an error (table not found, ...). We try again.
             continue
         break
 
@@ -66,8 +66,8 @@ async def response(flow):
                 + b'<div style="display: table; padding:5px; position: fixed;top:0;left:0;z-index:999;'
                 + b"height:20px;font-size:15px;color:black;background-color:white;border: 1px solid black;"
                 b' text-decoration: none;">'
-                + f'[<a target="_blank" href="http://localhost/jupyter/voila/render/webapps/index.ipynb">Tracked!</a>]'
-                .encode("utf-8")
+                + b'[<a target="_blank"'
+                b' href="http://localhost:8082/jupyter/voila/render/webapps/index.ipynb">Tracked!</a>]'
                 + b"</div>"
                 + flow.response.content[match.end() :]
             )

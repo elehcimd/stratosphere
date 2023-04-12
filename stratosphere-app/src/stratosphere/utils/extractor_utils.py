@@ -1,10 +1,9 @@
-import json
-from stratosphere.storage.models import Entity, Relationship
-import json
-import uuid
 import hashlib
-import re
 import json
+import re
+import uuid
+
+from stratosphere.storage.models import Entity, Relationship
 
 
 def decode(s, encodings=("ascii", "utf-8", "latin-1")):
@@ -29,7 +28,7 @@ def is_json(data):
 
 
 def get_uuid_hash(data):
-    return uuid.UUID(hex=hashlib.md5(f"vk.com-{data}".encode("utf-8")).hexdigest()).hex
+    return uuid.UUID(hex=hashlib.md5(f"{data}".encode()).hexdigest()).hex  # noqa
 
 
 def re_match(pattern, content, raise_exception=False):
@@ -41,7 +40,7 @@ def re_match(pattern, content, raise_exception=False):
             # print(re.compile(pattern).search(content)[0])
             match = re.compile(pattern).search(content)[1]
             return match
-        except Exception as e:
+        except:  # noqa
             return None
 
 
@@ -73,7 +72,7 @@ class DuplicateRows:
             self.add(rows)
 
         self.dedup_rows = []
-        for entity_id, rows in self.entities.items():
+        for _entity_id, rows in self.entities.items():
             # print(entity_id, len(rows))
             candidate = rows[0]
             candidate_data = json.loads(candidate.data) if candidate.data else {}

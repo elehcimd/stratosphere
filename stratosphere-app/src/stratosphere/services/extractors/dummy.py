@@ -1,14 +1,13 @@
-from stratosphere.storage.models import Entity, Relationship
-from stratosphere.stratosphere import Stratosphere
-from stratosphere.stratosphere import options
-from stratosphere.utils.extractor_utils import DuplicateRows, get_uuid_hash
 from datetime import datetime
 
+from stratosphere.storage.models import Entity, Relationship
+from stratosphere.stratosphere import Stratosphere, options
+from stratosphere.utils.extractor_utils import DuplicateRows, get_uuid_hash
 
-dummy_uuid = get_uuid_hash(f"dummy")
+dummy_uuid = get_uuid_hash("dummy")
 
 
-def extract_dummy(rows):
+def add_dummy(rows=None):
     s_kb = Stratosphere(options.get("db.url_kb"))
     dup_rows = DuplicateRows(s_kb.db)
 
@@ -16,7 +15,7 @@ def extract_dummy(rows):
         entity_id=dummy_uuid,
         group="dummy",
         type="dummy",
-        data=json.dumps({}),
+        data="{}",
         timestamp=datetime.now(),
     )
     rel = Relationship(
@@ -37,7 +36,7 @@ def extract_dummy(rows):
 
 
 def extract(rows):
-    extract_dummy(rows)
+    add_dummy(rows)
 
 
 extractor = {"name": "dmmy", "func": extract}

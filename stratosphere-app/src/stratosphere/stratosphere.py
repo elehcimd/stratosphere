@@ -1,9 +1,7 @@
+from stratosphere import options
 from stratosphere.storage.database import Database
 from stratosphere.storage.models import Flow
-from stratosphere import options
-from stratosphere.version import __version__
 from stratosphere.utils.log import init_logging, logger
-from IPython.display import display
 
 
 class Stratosphere:

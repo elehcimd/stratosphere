@@ -1,7 +1,6 @@
 import copy
 from contextlib import contextmanager
 
-
 default_options = {
     "db": {
         "url": "sqlite:///:memory:",

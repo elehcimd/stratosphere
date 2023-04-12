@@ -1,10 +1,10 @@
-from urllib.parse import parse_qs
-from stratosphere.storage.models import Entity, Relationship
-from stratosphere.stratosphere import Stratosphere
-from stratosphere.stratosphere import options
-from stratosphere.utils.log import compact_exception_message, logger
-from stratosphere.utils.extractor_utils import decode, re_match, DuplicateRows, get_uuid_hash, json_loads
 import json
+from urllib.parse import parse_qs
+
+from stratosphere.storage.models import Entity, Relationship
+from stratosphere.stratosphere import Stratosphere, options
+from stratosphere.utils.extractor_utils import DuplicateRows, decode, get_uuid_hash, json_loads, re_match
+from stratosphere.utils.log import compact_exception_message, logger
 
 
 def track_user(rows):
@@ -32,7 +32,7 @@ def track_user(rows):
             city = re_match(',"city":{.*?"title":"(.*?)"}', content)  # Kursk
             bdate = re_match(',"bdate":"(.*?)"', content)  # 20.2
             skype = re_match(',"skype":"(.*?)"', content)  # -
-            picture = re_match("AvatarRich__background.*?img(.*?)/>", content)  # -
+            re_match("AvatarRich__background.*?img(.*?)/>", content)  # -
             full_name = f"{first_name} {last_name}"
 
             if "&_ref=id" in row.flow_request_url:
@@ -40,7 +40,7 @@ def track_user(rows):
             else:
                 prev_user_id = None
 
-        except Exception as e:
+        except Exception as e:  # noqa
             logger.info(
                 f"Failed parsing vk.com person page for flow {row.flow_id} ({compact_exception_message(e)}), url:"
                 f" {row.flow_request_url} request_content: {row.flow_request_content}"
@@ -124,7 +124,7 @@ def track_friends(rows):
             # Let's parse the list of frends
             data = json_loads(row.flow_response_content)
             friends = data["payload"][1][0]["all"]
-        except Exception as e:
+        except Exception as e:  # noqa
             logger.info(
                 f"Failed parsing vk.com friends for flow {row.flow_id} ({compact_exception_message(e)}), url:"
                 f" {row.flow_request_url} request_content: {row.flow_request_content}"

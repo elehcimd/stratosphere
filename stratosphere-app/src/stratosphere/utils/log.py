@@ -5,8 +5,9 @@ import time
 from typing import Callable, Dict, Optional
 
 from colorama import Back, Fore, Style
-from stratosphere.utils.environment import is_tty, is_notebook
+
 from stratosphere.options import options
+from stratosphere.utils.environment import is_notebook, is_tty
 
 logger = logging.getLogger("stratosphere")
 

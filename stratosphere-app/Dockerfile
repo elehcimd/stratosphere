@@ -77,7 +77,4 @@ CMD ["supervisord" , "--nodaemon", "--configuration=/shared/supervisord.conf"]
 
 # Expose these TCP ports.
 EXPOSE 8080/tcp
-EXPOSE 1080/tcp
-EXPOSE 80/tcp
-
-EXPOSE 8000/tcp
+EXPOSE 8082/tcp

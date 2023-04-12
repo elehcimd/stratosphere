@@ -1,14 +1,11 @@
-from urllib.parse import urlparse, parse_qs
-from stratosphere.storage.models import Entity, Relationship
-from stratosphere.stratosphere import Stratosphere
-from stratosphere.stratosphere import options
-from stratosphere.utils.log import compact_exception_message, logger
+import json
+from urllib.parse import parse_qs, urlparse
 
 from bs4 import BeautifulSoup
-
-from urllib.parse import parse_qs
+from stratosphere.storage.models import Entity, Relationship
+from stratosphere.stratosphere import Stratosphere, options
 from stratosphere.utils.extractor_utils import DuplicateRows, get_uuid_hash
-import json
+from stratosphere.utils.log import compact_exception_message, logger
 
 
 def extract_search_results(rows):
@@ -44,7 +41,7 @@ def extract_search_results(rows):
                         text = "\n".join([img["alt"] for img in a.find_all("img", alt=True)])
                     # finally, try to see if there's a title inside the text, prefer it if present
                     text = a.find("h3").text.strip()
-                except:
+                except:  # noqa
                     pass
 
                 if len(text) == 0:
@@ -55,7 +52,7 @@ def extract_search_results(rows):
                 # Right know, we end up retainining only the last one, as they all get merged.
                 # print("Found the URL:", {"url": ["href"], "text": text})
 
-        except Exception as e:
+        except Exception as e:  # noqa
             logger.info(f"Failed parsing google search results for flow {row.flow_id} ({compact_exception_message(e)})")
             continue
 

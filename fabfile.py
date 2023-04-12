@@ -59,7 +59,7 @@ def build(ctx):
 
 
 def local(ctx, *args, **kwargs):
-    print("Executing: {} {}".format(args, kwargs))
+    print(f"Executing: {args} {kwargs}")
     return ctx.run(*args, **kwargs)
 
 

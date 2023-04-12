@@ -2,7 +2,6 @@ import os
 
 from common import get_package_version, project_dir, project_name
 
-
 project_dir = os.path.abspath(os.path.dirname(__file__) + os.sep + os.pardir)
 project_name = os.path.basename(project_dir)
 

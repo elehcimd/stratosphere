@@ -1,9 +1,9 @@
-from stratosphere.options import options
-from sqlalchemy import Integer, BigInteger, Column, LargeBinary, String, DateTime
+import uuid
+from datetime import datetime
+
+from sqlalchemy import Column, DateTime, Integer, LargeBinary, String
 from sqlalchemy.orm import declarative_base
 from sqlalchemy_utils.types.uuid import UUIDType
-from datetime import datetime
-import uuid
 
 # Construct a base class for declarative class definitions.
 Base = declarative_base()
