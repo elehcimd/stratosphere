@@ -22,7 +22,7 @@ You can now download and run the image.
 Execute from the command line:
 
 ```
-docker run --rm --name stratosphere-app -p 8080:8080 -p 127.0.0.1:8082:8082 \
+docker run --rm --name stratosphere-app -p 8080:8080 -p localhost:8082:8082 \
   micheda/stratosphere-app:latest
 docker pull micheda/stratosphere-app:latest
 ```
@@ -47,7 +47,7 @@ Follow the instructions for your OS / system and install the CA.
 You can test that the system is working properly by browsing to http://mitm.it and verifying the presence of
 a banner on the top left corner of the page with the text "[Tracked!]". Congratulations! **Stratosphere** is up and working.
 The banner is always visible on all tracked pages.
-You can now access the dashboard by clicking on it (or [here](http://127.0.0.1:8082)).
+You can now access the dashboard by clicking on it or browsing to [http://localhost:8082](http://localhost:8082).
 
 ## Core concepts
 
