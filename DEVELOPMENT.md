@@ -246,13 +246,13 @@ pytest -s tests/test_run.py::test_run_fields
 Running coverage test:
 
 ```
-pytest --cov=src/mltraq tests/
+pytest --cov=src/projectname tests/
 ```
 
 Running coverate test, reporting missing lines:
 
 ```
-pytest --cov=src/mltraq --cov-report term-missing  tests/
+pytest --cov=src/projectname --cov-report term-missing  tests/
 ```
 
 To avoid .coverage files, you can add this line to your shell .rc:
