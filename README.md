@@ -46,7 +46,7 @@ You need to configure your browser or device to route all traffic through the HT
 http://localhost:8080
 ```
 
-Browser versions and configurations options frequently change, you should search the web on how to configure an HTTP proxy for your system.
+Browser versions and configurations frequently change, you should search the web on how to configure an HTTP proxy for your system.
 Some operating systems have a global settings, some browsers have their own, other applications use environment variables, etc.
 I recommend FoxyProxy, a browser extension that let you quickly switch between different proxy settings:
 
