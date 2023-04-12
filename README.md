@@ -35,13 +35,13 @@ docker pull micheda/stratosphere-app:latest
 ### 3. Configure your browser or device
 
 You need to configure your browser or device to route all traffic through the HTTP proxy listening on http://localhost:8080.
+
+Browser versions and configurations options frequently change, you should search the web on how to configure an HTTP proxy for your system.
+Some operating systems have a global settings, some browsers have their own, other applications use environment variables, etc.
 I recommend FoxyProxy, a browser extension that let you quickly switch between different proxy settings:
 
 * [Firefox](https://addons.mozilla.org/it/firefox/addon/foxyproxy-standard/)
 * [Chrome, Brave](https://chrome.google.com/webstore/detail/foxyproxy-standard/gcknhkkoolaabfmlnjonogaaifnjlfnp?hl=it)
-
-Browser versions and configurations options frequently change, you should search the web on how to configure an HTTP proxy for your system.
-Some operating systems have a global settings, some browsers have their own, other applications use environment variables, etc.
 
 **Check**: You can check that your web traffic is going through mitmproxy by browsing to http://mitm.it.
 It should present you with a simple page to install the mitmproxy Certificate Authority, which is also the next step.
