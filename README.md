@@ -26,6 +26,9 @@ Execute from the command line:
 ```
 docker run --rm --name stratosphere-app -p 8080:8080 -p localhost:8082:8082 \
   micheda/stratosphere-app:latest
+```
+
+```
 docker pull micheda/stratosphere-app:latest
 ```
 
