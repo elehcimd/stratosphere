@@ -1,0 +1,6 @@
+export TERM=xterm-color # useful with fabfile shell
+export PYTHONPATH="${PYTHONPATH}:/shared/pkgs" # add package to Python path
+export SQLALCHEMY_SILENCE_UBER_WARNING=1 
+source "$HOME/.cargo/env"
+
+
