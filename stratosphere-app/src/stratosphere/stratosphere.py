@@ -8,8 +8,6 @@ class Stratosphere:
     def __init__(self, url: str = None):
         init_logging()
 
-        # logger.info(f"Stratosphere v{__version__} ({options.get('doc.url')}) initialized")
-
         if url is None:
             url = options.get("db.url")
 
