@@ -62,7 +62,7 @@ Follow the instructions for your OS / system and install the CA.
 
 ### 4. Test the web tracking
 
-You can test that the system is working properly by browsing to http://mitm.it and verifying the presence of
+You can test that the system is working properly by browsing to https://www.google.com and verifying the presence of
 a banner on the top left corner of the page with the text "[Tracked!]". Congratulations! **Stratosphere** is up and working.
 The banner is always visible on all tracked pages.
 You can now access the dashboard by clicking on it or browsing to [http://localhost:8082](http://localhost:8082).
