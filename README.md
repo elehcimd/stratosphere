@@ -43,7 +43,9 @@ I recommend FoxyProxy, a browser extension that let you quickly switch between d
 * [Firefox](https://addons.mozilla.org/it/firefox/addon/foxyproxy-standard/)
 * [Chrome, Brave](https://chrome.google.com/webstore/detail/foxyproxy-standard/gcknhkkoolaabfmlnjonogaaifnjlfnp?hl=it)
 
-**Check**: You can check that your web traffic is going through mitmproxy by browsing to http://mitm.it.
+#### Check
+
+You can check that your web traffic is going through mitmproxy by browsing to http://mitm.it.
 It should present you with a simple page to install the mitmproxy Certificate Authority, which is also the next step.
 Follow the instructions for your OS / system and install the CA.
 
