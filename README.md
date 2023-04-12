@@ -1,8 +1,8 @@
 # **stratosphere** project
 
-**Stratosphere** is a free and open source OSINT platform that automatically collects and analyses every page you visit, building an internal knowledge base you can explore with a suite of web apps:
+**Stratosphere** is a free and open source OSINT platform that automatically collects and analyses every page you visit, building an internal knowledge base you can explore with a suite of customizable web apps, including:
 
-* **Google sarch results**: Keep track of your searches
+* **Google sarch results**: Keep track of your search results
 * **vk.com contacts explorer**: Explore previously seen vk.com contacts, highlighting their connections
 * **Entity overview**: Navigate the knowledge base through entities and relationships
 
@@ -12,10 +12,13 @@
 
 ### 1. Install Docker
 
-Docker is a tool that is used to automate the deployment of applications in lightweight containers so that applications can work efficiently in different environments. You can follow the [official installation instructions](https://docs.docker.com/get-docker/).
+Docker is a tool that is used to automate the deployment of applications in lightweight containers so that
+applications can work efficiently in different environments.
+Follow the [official installation instructions](https://docs.docker.com/get-docker/).
 
 ### 2. Pull the image and start the container
 
+You can now download and run the image.
 Execute from the command line:
 
 ```
@@ -27,21 +30,24 @@ docker pull micheda/stratosphere-app:latest
 ### 3. Configure your browser or device
 
 You need to configure your browser or device to route all traffic through the HTTP proxy listening on http://localhost:8080.
-I personally use FoxyProxy, a browser extension that let you quickly switch between different proxy settings:
+I recommend FoxyProxy, a browser extension that let you quickly switch between different proxy settings:
 
 * [Firefox](https://addons.mozilla.org/it/firefox/addon/foxyproxy-standard/)
 * [Chrome, Brave](https://chrome.google.com/webstore/detail/foxyproxy-standard/gcknhkkoolaabfmlnjonogaaifnjlfnp?hl=it)
 
-Browser versions and configurations options frequently change, so we recommend to simply search the web on how to configure an HTTP proxy for your system. Some operating system have a global settings, some browser have their own, other applications use environment variables, etc.
+Browser versions and configurations options frequently change, you should search the web on how to configure an HTTP proxy for your system.
+Some operating systems have a global settings, some browsers have their own, other applications use environment variables, etc.
 
-**Check**: You can check that your web traffic is going through mitmproxy by browsing to http://mitm.it - it should present you with a simple page to install the mitmproxy Certificate Authority - which is also the next step. Follow the instructions for your OS / system and install the CA.
+**Check**: You can check that your web traffic is going through mitmproxy by browsing to http://mitm.it.
+It should present you with a simple page to install the mitmproxy Certificate Authority, which is also the next step.
+Follow the instructions for your OS / system and install the CA.
 
 ### 4. Verifying everything works
 
-You can test that the system is working properly by browsing to http://mitm.it and verifying the presence of the text "[Tracked!]" on the top left corner of the page. Congratulations! **Stratosphere** is up and working. You can now access the dashboard by clicking on it (or [here](http://127.0.0.1:8082)).
-
-You can always check if the system is tracking properly by verifying the presence of the top-left banner.
-
+You can test that the system is working properly by browsing to http://mitm.it and verifying the presence of
+a banner on the top left corner of the page with the text "[Tracked!]". Congratulations! **Stratosphere** is up and working.
+The banner is always visible on all tracked pages.
+You can now access the dashboard by clicking on it (or [here](http://127.0.0.1:8082)).
 
 ## Core concepts
 
