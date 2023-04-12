@@ -1,5 +1,7 @@
 # **stratosphere** project
 
+---
+
 **Stratosphere** is a free and open source OSINT platform that automatically collects and analyses every page you visit, building an internal knowledge base you can explore with a suite of customizable web apps, including:
 
 * **Google sarch results**: Keep track of your search results
