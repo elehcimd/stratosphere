@@ -24,13 +24,20 @@ You can now download and run the image.
 Execute from the command line:
 
 ```
-docker run --rm --name stratosphere-app -p 8080:8080 -p localhost:8082:8082 \
-  micheda/stratosphere-app:latest
+docker pull micheda/stratosphere-app:latest
 ```
 
 ```
-docker pull micheda/stratosphere-app:latest
+docker run --rm --name stratosphere-app -p 8080:8080 -p 127.0.0.1:8082:8082 \
+  micheda/stratosphere-app:latest
 ```
+
+#### Check
+
+After executing the last command, the container is running in foreground, 
+with all services reporting a `successful` status.
+
+To terminate the container, simply press `ctrl-C` or `cmd-c`.
 
 ### 3. Configure your browser or device
 
