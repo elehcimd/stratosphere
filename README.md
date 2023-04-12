@@ -49,7 +49,7 @@ You can check that your web traffic is going through mitmproxy by browsing to ht
 It should present you with a simple page to install the mitmproxy Certificate Authority, which is also the next step.
 Follow the instructions for your OS / system and install the CA.
 
-### 4. Verifying everything works
+### 4. Verify the tracking
 
 You can test that the system is working properly by browsing to http://mitm.it and verifying the presence of
 a banner on the top left corner of the page with the text "[Tracked!]". Congratulations! **Stratosphere** is up and working.
