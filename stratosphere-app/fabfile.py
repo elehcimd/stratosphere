@@ -45,11 +45,11 @@ def start2(ctx):
     with ctx.cd(project_dir):
         local(
             ctx,
-            f"docker run --rm --name {project_name} -d -ti -p 127.0.0.1:80:80 -t {project_name}".format(
-                project_dir=project_dir
-            ),
+            f"docker run --rm --name {project_name} -d -ti -p 127.0.0.1:8080:8080 -p 127.0.0.1:8082:8082 -v"
+            f" -t {project_name}".format(project_dir=project_dir),
         )
-    print("\n\nIndex of services: http://127.0.0.1:80/api/static/index.html\n\n")
+
+    print("\n\nIndex of services: http://127.0.0.1:8082/\n\n")
 
 
 @task
