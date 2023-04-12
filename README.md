@@ -12,23 +12,15 @@
 
 ### 1. Install Docker
 
-You must install Docker. Docker is an open platform for developing, shipping, and running applications.
-You can follow the installation instructions on the [official website](https://docs.docker.com/get-docker/).
+You should install Docker. Docker is a tool that is used to automate the deployment of applications in lightweight containers so that applications can work efficiently in different environments. You can follow the [official installation instructions](https://docs.docker.com/get-docker/).
 
-### 2. Install the Docker image
-
-Execute from the command line:
-
-```
-docker pull micheda/stratosphere-app:latest
-```
-
-### 3. Start the Docker container
+### 2. Pull the image and start the container
 
 Execute from the command line:
 
 ```
 docker run --rm --name stratosphere-app -p 8080:8080 -p 127.0.0.1:8082:8082 micheda/stratosphere-app:latest
+docker pull micheda/stratosphere-app:latest
 ```
 
 ### 4. Configure your browser or device
