@@ -40,19 +40,6 @@ def start(ctx):
 
 
 @task
-def start2(ctx):
-    kill(ctx)
-    with ctx.cd(project_dir):
-        local(
-            ctx,
-            f"docker run --rm --name {project_name} -d -ti -p 127.0.0.1:80:80 -t {project_name}".format(
-                project_dir=project_dir
-            ),
-        )
-    print("\n\nIndex of services: http://127.0.0.1:80/api/static/index.html\n\n")
-
-
-@task
 def build(ctx):
     with ctx.cd(project_dir):
         local(ctx, f"docker build -t {project_name} .")

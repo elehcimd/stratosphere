@@ -42,10 +42,6 @@ RUN bash -c "source root/.cargo/env && pip install -r /tmp/requirements.txt"
 # install http proxy
 RUN apt-get -y install nginx apache2-utils
 RUN rm -f /etc/nginx/nginx.conf && ln -s /shared/nginx.conf /etc/nginx/nginx.conf 
-RUN htpasswd -bc /etc/nginx/htpasswd-demo demo demo
-RUN htpasswd -bc /etc/nginx/htpasswd-admin admin 'ksb2&6ITC8E5'
-RUN htpasswd -b /etc/nginx/htpasswd-demo admin 'ksb2&6ITC8E5'
-
 
 # Add Jupyter config
 RUN mkdir -p /root/.jupyter

@@ -6,6 +6,7 @@ from stratosphere import Stratosphere
 from stratosphere.storage.models import Flow
 
 
+# https://docs.mitmproxy.org/stable/addons-examples/#nonblocking
 async def response(flow):
     response_content_type = flow.response.headers.get("content-type")
     response_content_type_str = str(response_content_type)
@@ -71,6 +72,3 @@ async def response(flow):
                 + b"</div>"
                 + flow.response.content[match.end() :]
             )
-
-
-# https://docs.mitmproxy.org/stable/addons-examples/#nonblocking

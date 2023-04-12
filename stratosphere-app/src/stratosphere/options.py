@@ -21,7 +21,6 @@ default_options = {
         "catch_exceptions": False,
         "clear_handlers_default_logger": True,
     },
-    "doc": {"url": "https://stratosphere.dev"},
 }
 
 
