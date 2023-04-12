@@ -15,20 +15,20 @@ os.chdir(project_dir)
 
 
 @task
-def kill(ctx):
+def stop(ctx):
     with ctx.cd(project_dir):
         local(ctx, f"docker stop {project_name} 2>/dev/null >/dev/null || true")
 
 
 @task
 def dump(ctx):
-    kill(ctx)
+    stop(ctx)
     local(ctx, f"docker save -o {project_name}.docker-image {project_name}")
 
 
 @task
 def start(ctx):
-    kill(ctx)
+    stop(ctx)
     with ctx.cd(project_dir):
         local(
             ctx,
@@ -41,7 +41,7 @@ def start(ctx):
 
 @task
 def start2(ctx):
-    kill(ctx)
+    stop(ctx)
     with ctx.cd(project_dir):
         local(
             ctx,
