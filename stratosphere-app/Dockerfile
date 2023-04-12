@@ -55,13 +55,8 @@ RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 # Copy contents of shared folder
 ADD . /shared
 
-# Install npm packages
-#RUN cd /shared/web && npm install --loglevel verbose
-#RUN cd /shared/web && npm run build
-
 # Add /shared to pythonpath: packages defined in this directory will be visible from Python.
 ENV PYTHONPATH /shared/src/
-
 
 # Change working directory
 WORKDIR /shared
@@ -69,7 +64,7 @@ WORKDIR /shared
 # Start supervisord, that takes care of running our services.
 CMD ["supervisord" , "--nodaemon", "--configuration=/shared/supervisord.conf"]
 # supervisord --nodaemon --configuration=/shared/supervisord.conf
-# CMD ["/bin/bash"]
+#CMD ["/bin/bash"]
 
 # Expose these TCP ports.
 EXPOSE 8080/tcp
