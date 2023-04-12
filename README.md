@@ -12,7 +12,7 @@
 
 ### 1. Install Docker
 
-You should install Docker. Docker is a tool that is used to automate the deployment of applications in lightweight containers so that applications can work efficiently in different environments. You can follow the [official installation instructions](https://docs.docker.com/get-docker/).
+Docker is a tool that is used to automate the deployment of applications in lightweight containers so that applications can work efficiently in different environments. You can follow the [official installation instructions](https://docs.docker.com/get-docker/).
 
 ### 2. Pull the image and start the container
 
@@ -23,7 +23,7 @@ docker run --rm --name stratosphere-app -p 8080:8080 -p 127.0.0.1:8082:8082 mich
 docker pull micheda/stratosphere-app:latest
 ```
 
-### 4. Configure your browser or device
+### 3. Configure your browser or device
 
 You need to configure your browser or device to route all traffic through the HTTP proxy listening on http://localhost:8080.
 I personally use FoxyProxy, a browser extension that let you quickly switch between different proxy settings:
@@ -35,7 +35,7 @@ Browser versions and configurations options frequently change, so we recommend t
 
 **Check**: You can check that your web traffic is going through mitmproxy by browsing to http://mitm.it - it should present you with a simple page to install the mitmproxy Certificate Authority - which is also the next step. Follow the instructions for your OS / system and install the CA.
 
-### 5. Verifying everything works
+### 4. Verifying everything works
 
 You can test that the system is working properly by browsing to http://mitm.it and verifying the presence of the text "[Tracked!]" on the top left corner of the page. Congratulations! **Stratosphere** is up and working. You can now access the dashboard by clicking on it (or [here](http://127.0.0.1:8082)).
 
