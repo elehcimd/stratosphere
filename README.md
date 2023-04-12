@@ -14,7 +14,7 @@
 
 Docker is a tool that is used to automate the deployment of applications in lightweight containers so that
 applications can work efficiently in different environments.
-Follow the [official installation instructions](https://docs.docker.com/get-docker/).
+You can follow the [official installation instructions](https://docs.docker.com/get-docker/).
 
 ### 2. Pull the image and start the container
 
