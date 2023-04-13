@@ -89,7 +89,7 @@ docker run -d --rm --name stratosphere-app -p 8080:8080 -p 127.0.0.1:8082:8082 \
   -v /xyz/stratosphere-app:/shared micheda/stratosphere-app:latest
 ```
 
-On Windows, the host path (before `":"`) must be a valid Windows path (meaning: it starts with `C://....`).
+On Windows, the host path (before `":"`) must be a valid absolute Windows directy path (meaning: it starts with `C://....`).
 The additional parameter `-v` takes care of mounting the volume, `-d` runs the container in background.
 You can stop the container with the following command:
 
