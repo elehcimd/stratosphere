@@ -92,7 +92,13 @@ You can now access the dashboard by clicking on it or browsing to [http://localh
 
 ### Adding a new notebook or web app
 
+You can access Jupyter lab from the main dashboard. The notebooks located in the subdirectory `webapps` are also published as Voilà web applications.
+This is a not comprehensive list of the included notebooks:
 
+* `01 kb overview.ipynb` shows how to query the knowledge base with SQL and Pandas.
+* `02 capture sample.ipynb` lets you capture a sample of flows for later analysis.
+* `03 analyze sample.ipynb` helps you analyze the contents of a captured sample of flows.
+* `04 test extractors.ipynb` tests the extractors on the captured flow samples.
 
 ### Adding a new scraper
 
