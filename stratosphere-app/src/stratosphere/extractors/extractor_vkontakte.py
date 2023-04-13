@@ -39,7 +39,6 @@ def track_user(rows):
             city = re_match(',"city":{.*?"title":"(.*?)"}', content)  # Kursk
             bdate = re_match(',"bdate":"(.*?)"', content)  # 20.2
             skype = re_match(',"skype":"(.*?)"', content)  # -
-            re_match("AvatarRich__background.*?img(.*?)/>", content)  # -
             full_name = f"{first_name} {last_name}"
 
             if "&_ref=id" in row.flow_request_url:

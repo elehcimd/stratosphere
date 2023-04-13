@@ -65,8 +65,8 @@ Follow the instructions for your OS / system and install the CA.
 ### 4. Test the web tracking
 
 You can test that the system is working properly by browsing to https://www.google.com and verifying the presence of
-a banner `[S]` on the top left corner of the page. Congratulations! **Stratosphere** is up and working.
-The banner is always visible on all tracked pages.
+a banner `[S]` on the top left corner of the page. Congratulations! **Stratosphere** is up and working properly.
+The banner is always visible on all tracked pages. If missing, try refreshing the page with `ctrl-r`.
 You can now access the dashboard by clicking on it or browsing to [http://localhost:8082](http://localhost:8082).
 
 ## Core concepts

@@ -8,7 +8,7 @@ from stratosphere.utils.extractor_utils import DuplicateRows, get_uuid_hash, get
 from stratosphere.utils.log import compact_exception_message, logger
 
 
-def extract_search_results(rows):
+def extract(rows):
     s_kb = Stratosphere(options.get("db.url_kb"))
     dup_rows = DuplicateRows(s_kb.db)
 
@@ -92,7 +92,3 @@ def extract_search_results(rows):
         logger.info(f'Added google search {entity1.id} ({len(urls)} results for query "{search_string}")')
 
         dup_rows.merge_and_commit()
-
-
-def extract(rows):
-    extract_search_results(rows)
