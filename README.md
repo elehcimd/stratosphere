@@ -69,6 +69,10 @@ You can now access the dashboard by clicking on it or browsing to [http://localh
 
 ## Core concepts
 
+The knowledge base is a SQlite data base with two tables: `entities` and `relationships`.
+An entity describes a "thing", such as a web search result or an user.
+A relationship describes the connenctions between entities, such as a friendship between users.
+
 ## Development
 
 ### How does it work?
