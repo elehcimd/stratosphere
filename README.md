@@ -30,8 +30,6 @@ docker run --rm --name stratosphere-app -p 8080:8080 -p 127.0.0.1:8082:8082 \
   micheda/stratosphere-app:latest
 ```
 
-#### Check
-
 After executing the last command, the container is running in foreground, 
 with all services reporting a `successful` status.
 If you want to interrupt the execution, simply press `ctrl-c` or `cmd-c`.
