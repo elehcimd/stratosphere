@@ -4,5 +4,6 @@
 dist
 local
 **/*.ipynb_checkpoints
+**/*.db-journal
 __pycache__
 

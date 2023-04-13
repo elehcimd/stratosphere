@@ -5,7 +5,7 @@ from importlib import import_module, invalidate_caches
 
 import stratosphere.extractors
 from stratosphere.options import options
-from stratosphere.storage.models import Flow
+from stratosphere.storage.models import Flow, Entity, Relationship
 from stratosphere.stratosphere import Stratosphere
 from stratosphere.utils.log import init_logging, logger
 
@@ -16,20 +16,28 @@ class Extractor:
             url = options.get("db.url_probe")
         self.url = url
 
-        invalidate_caches()
-        self.extractor_funcs = []
-        for _, module_name, _ in pkgutil.iter_modules(stratosphere.extractors.__path__):
-            logger.info(f"Registering extractor: {module_name}")
-            m = import_module(f"stratosphere.extractors.{module_name}")
-            self.extractor_funcs.append(m.extract)
-
     def process(self):
-        self.s_probe = Stratosphere(self.url)
+        # Extractors can be added at any time, and we'll pick them up.
+        # In case new extractors are defined while the code is running, we need to invalidate
+        # the  importlib cache, s.t. we can scan find also new modules.
+        invalidate_caches()
+        extractor_funcs = []
+        for _, module_name, _ in pkgutil.iter_modules(stratosphere.extractors.__path__):
+            logger.info(f"Found extractor: {module_name}")
+            m = import_module(f"stratosphere.extractors.{module_name}")
+            extractor_funcs.append(m.extract)
 
-        with self.s_probe.db.session() as session:
+        s_probe = Stratosphere(self.url)
+
+        # Drop entities and relationships tables: they're always empty
+        #  and if their schema changes, we shouldn't worry here.
+        # Entity.__table__.drop(s_probe.db.engine)
+        # Relationship.__table__.drop(s_probe.db.engine)
+
+        with s_probe.db.session() as session:
             rows = session.query(Flow).all()
         logger.info(f"Processing {len(rows)} flows: start")
-        for extractor_func in self.extractor_funcs:
+        for extractor_func in extractor_funcs:
             extractor_func(rows)
         logger.info(f"Processing {len(rows)} flows: end")
 
@@ -44,17 +52,13 @@ def main():
         logger.info("Processing new flows ...")
         extractor.process()
 
-        # we might miss some flows here, if the probe writes to the file handler and we remove it
-        # before processing them.
+        # TODO
+        # We drop the processed flows.
+        # Ideally, we drop only the ones we processed, to avoid
+        # race conditions that might result in missed tracked flows.
+        s_probe = Stratosphere(extractor.url)
+        Flow.__table__.drop(s_probe.db.engine)
 
-        # logger.info("Removing old flows ...")
-        try:
-            pass
-            os.remove("/shared/data/probe.db")
-        except OSError:
-            pass
-
-        # logger.info("Waiting for more flows ...")
         time.sleep(10)
 
 
