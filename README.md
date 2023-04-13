@@ -95,11 +95,13 @@ Relationships are uniquely identified by the UUIDs obtained from hashing the con
 
 Similarly to the entities table, a NIL relationship is also always present, with  `id`, `src`, and `dst` columns are set to zeros.
 
-#### The importance of stable UUIDs to accumulate knowledge
+#### On the importance of stable and robust UUIDs
 
 The duty of the extractors is to process flows to insert new entities and relationships in the knowledge base.
-The properties in the `data` columns might differ over time, depending on the different interactions with websites.
-For example, the field `"birthdate"` might be available only in the user profile page and the field `"full_name"` might be  available in a friends page. It is important to define a stable UUID for the same entity to enable the consolidastion of multiple entities describing the same "thing" into a single merged entity.
+If an entity is encountered several times, potentially on different web pages, a stable UUID lets us 
+consolidate the knowledge in a unifying entity, merging the different data points.
+Furthermore, UUIDs are the sole connection between entities and relationships.
+For these reasons, it is critical to have a solid, robust design of the extraction of UUIDs for entities and relationships.
 
 ### Adding new Jupyter notebooks and Voilà web apps
 
@@ -111,17 +113,32 @@ The example notebook `01 kb overview.ipynb` shows how to query the knowledge bas
 
 The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web traffic (both desktop and mobile), building a knowledge base with [SQLite](https://sqlite.org/) that is later accessed by a suite of web apps built with [Jupyter](https://jupyter.org/) and [Voilà](https://voila.readthedocs.io/en/stable/). [supervisor])http://supervisord.org/) is used to manage the running services. The architecture is cross platform and runs locally inside a Docker container. The system includes these running services (entry points in `/shared/services/`):
 
-* **mitmproxy**: running the HTTP/S proxy and dumping the flows to `probe.db`.
-* **extractor**: reading the flows from `probe.db`, adding entities and relationships to `kb.db`. The pipeline is retriggered every `10` seconds and it will delete all flows older than `10` minutes, possibly reprocessing already seen flows. This procedure ensures that recent traffic can always be inspected in `probe.db` without retaining the whole flows history.
+* **mitmproxy**: running the HTTP/S proxy and adding the intercepted flows to `probe.db`.
+* **extractor**: reading the flows from `probe.db`, adding entities and relationships to `kb.db`.
 * **nginx**: proxying all services behind http://localhost:8082.
   * **jupterlab/Voilà**: JupyterLab server with Voilà extension to serve the web apps.
   * **sqliteweb**: Web-based SQLite database browser pointing to `kb.db`.
 
-### How to add a new scraper
+### How to add a new extractor
 
-Scrapers are executed by the **extractor** service.
+Extractors are in charge of scraping and extracting knowledge from the intercepted flows.
+The **mitmproxy** service operates independently. It intercepts continuously the web traffic, dumping it to `probe.db`.
+The **extractor** service is regularly pulling new flows from `probe.db`, passing them to the extractors for processing.
+The pipeline is retriggered every `10` seconds and it prunes the flows older than `10` minutes, possibly reprocessing already seen flows.
+This procedure ensures that recent traffic can always be inspected in `probe.db` without missing data and without retaining the complete flows history.
 
-* Flows (raw web requests and responses) are dumped in the `flows` table in the SQLite database `probe.db`. The flows are regularly processed by the scrapers before being removed, ensuring that the file size remains under control. The columns in this table map to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the contents and meaning of field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response). The additional column `id` is a random UUID.
+Tp add a mew extractor:
+
+1. Create a new module in `/shared/src/stratosphere/extractors` that defines a function `extract(rows: List[stratosphere.stoerage.models.Flow])`.
+2. Implement the `extract` function s.t. it processes all input flows, inserting them in the knowledge base.
+
+To implement the `extract` function:
+
+* You can use `extractor_google_search.py` as example. You should use the class `DuplicateRows` are that duplicate entities and relationships are handled correctly, merging the contents of the `data` fields. Depending on your use case, you might need to implement a custom merge strategy.
+* The fields of `Flow` ORM objects map approximately to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response). The additional column `id` is a random UUID.
+
+
+
 
 * `02 capture sample.ipynb` lets you capture a sample of flows for later analysis.
 * `03 analyze sample.ipynb` helps you analyze the contents of a captured sample of flows.

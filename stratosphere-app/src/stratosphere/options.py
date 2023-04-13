@@ -22,6 +22,7 @@ default_options = {
         "catch_exceptions": False,
         "clear_handlers_default_logger": True,
     },
+    "extractors": {"loop_wait": 10, "expired_flows": 10 * 60},
 }
 
 

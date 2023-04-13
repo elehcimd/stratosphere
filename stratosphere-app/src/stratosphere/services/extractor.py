@@ -2,12 +2,13 @@ import os
 import pkgutil
 import time
 from importlib import import_module, invalidate_caches
-
 import stratosphere.extractors
 from stratosphere.options import options
-from stratosphere.storage.models import Flow, Entity, Relationship
+from stratosphere.storage.models import Flow, Entity, Relationship, func_time_now
 from stratosphere.stratosphere import Stratosphere
 from stratosphere.utils.log import init_logging, logger
+
+from datetime import timedelta
 
 
 class Extractor:
@@ -36,10 +37,13 @@ class Extractor:
 
         with s_probe.db.session() as session:
             rows = session.query(Flow).all()
-        logger.info(f"Processing {len(rows)} flows: start")
+
+        logger.info(f"Processing {len(rows)} flows ...")
         for extractor_func in extractor_funcs:
-            extractor_func(rows)
-        logger.info(f"Processing {len(rows)} flows: end")
+            try:
+                extractor_func(rows)
+            except:
+                continue  # noqa
 
 
 def main():
@@ -51,15 +55,17 @@ def main():
     while True:
         logger.info("Processing new flows ...")
         extractor.process()
-
-        # TODO
-        # We drop the processed flows.
-        # Ideally, we drop only the ones we processed, to avoid
-        # race conditions that might result in missed tracked flows.
+        logger.info(f"Dropping expired flows (older than {options.get('extractors.expired_flows')}s)")
         s_probe = Stratosphere(extractor.url)
-        Flow.__table__.drop(s_probe.db.engine)
-
-        time.sleep(10)
+        with s_probe.db.session() as session:
+            session.query(Flow).filter(
+                Flow.flow_capture_timestamp
+                <= func_time_now() - timedelta(seconds=options.get("extractors.expired_flows"))
+            ).delete()
+            session.commit()
+        s_probe.db.vacuum()  # remove the records marked as deleted, freeing space.
+        logger.info(f"Waiting {options.get('extractors.loop_wait')}s")
+        time.sleep(options.get("extractors.loop_wait"))
 
 
 if __name__ == "__main__":
