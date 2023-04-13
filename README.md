@@ -8,7 +8,7 @@
 * **vk.com contacts explorer**: Explore previously seen vk.com contacts, highlighting their connections
 * **Entity overview**: Navigat
 
-You can use the platform also to reverse-engineer HTTP/HTTPS web requests, including REST APIs. This lets you unlock the potential of private REST APIs, investigate GDPR breaches, and **implement new scrapers to extend the knowledge base**.
+You can also use the platform to quickly reverse-engineer HTTP/HTTPS web requests, including REST APIs. This lets you unlock the potential of private REST APIs, investigate GDPR breaches, and **implement new scrapers to extend the knowledge base**.
 
 ---
 
