@@ -92,15 +92,6 @@ docker run -d --rm --name stratosphere-app -p 8080:8080 -p 127.0.0.1:8082:8082 \
 On Windows, the host path (before `:`) must be a valid Windows path (meaning: it starts with `C://....`).
 The additional parameter `-v` takes care of mounting the volume, `-d` runs the container in background.
 
-An overview of useful Docker parameters:
-
-* [--rm](https://docs.docker.com/engine/reference/run/#clean-up---rm): Docker will automatically clean up the container and remove the file system when the container exits. If you want to retain the container’s file system, remove `--rm`.
-* [-p](https://docs.docker.com/engine/reference/run/#expose-incoming-ports): Publish the container's port on the host. The format is `host_ip:host_port:container_port`. If you drop the `host_ip`, the port will be published on all interfaces. By default, the proxy runs on all intefaces, but the web interface is accessible only from localhost.
-* [--name](https://docs.docker.com/engine/reference/run/#name---name): Name your container. 
-* [-d](https://docs.docker.com/engine/reference/run/#detached-vs-foreground): Start the container in background.
-* [-it](https://docs.docker.com/engine/reference/run/#foreground): Allocate a pseudo-tty and keep STDIN open even if not attached. Useful if you want to access directly the container from terminal, via `docker execute`.
-* [-v](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems): Bind mount a volume.
-
 ## Core concepts
 
 ### The knowledge base
@@ -187,7 +178,7 @@ have visibility on the flows intercepted in the last `10` minutes. You might wan
 
 ### Useful Docker parameters
 
-Some useful options if you want to customise it:
+An overview of useful Docker parameters:
 
 * [--rm](https://docs.docker.com/engine/reference/run/#clean-up---rm): Docker will automatically clean up the container and remove the file system when the container exits. If you want to retain the container’s file system, remove `--rm`.
 * [-p](https://docs.docker.com/engine/reference/run/#expose-incoming-ports): Publish the container's port on the host. The format is `host_ip:host_port:container_port`. If you drop the `host_ip`, the port will be published on all interfaces. By default, the proxy runs on all intefaces, but the web interface is accessible only from localhost.
