@@ -69,11 +69,13 @@ You can now access the dashboard by clicking on it or browsing to [http://localh
 
 ## Core concepts
 
+
+
 ## Internals
 
 How does it work? The system relies on [mitmproxy](https://mitmproxy.org/) to intercept your web traffic (both desktop and mobile), building a knowledge base with [SQLite](https://sqlite.org/) that is later accessed by a suite of web apps built with [Jupyter](https://jupyter.org/) and [Voilà](https://voila.readthedocs.io/en/stable/). The architecture is cross platform and runs locally inside a Docker container.
 
-
+## Docker parameters
 
 Some useful options if you want to customise it:
 
