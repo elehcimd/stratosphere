@@ -68,7 +68,8 @@ async def response(flow):
                 + b'<div style="display: table; padding:2px; position: fixed;top:0;left:0;z-index:999;'
                 + b"height:15px;font-size:15px;color:black;background-color:white;border: 1px solid black;"
                 b' text-decoration: none;">'
-                + b'<a target="_blank" href="http://localhost:8082/jupyter/voila/render/webapps/index.ipynb">S</a>'
+                + b'<a target="_blank"'
+                b' href="http://localhost:8082/jupyter/voila/render/webapps/index.ipynb"><b>S</b></a>'
                 + b'</div><div style="top:15;left:0;z-index:998;">'
                 + flow.response.content[match.end() :]
                 + b"</div>"
