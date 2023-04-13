@@ -90,19 +90,20 @@ You can now access the dashboard by clicking on it or browsing to [http://localh
   - `blob`:
   - `ts`:
 
-### Adding a new notebook or web app
+### Adding new Jupyter notebooks and Voilà web apps
 
 You can access Jupyter lab from the main dashboard. The notebooks located in the subdirectory `webapps` are also published as Voilà web applications.
-This is a not comprehensive list of the included notebooks:
-
-* `01 kb overview.ipynb` shows how to query the knowledge base with SQL and Pandas.
-* `02 capture sample.ipynb` lets you capture a sample of flows for later analysis.
-* `03 analyze sample.ipynb` helps you analyze the contents of a captured sample of flows.
-* `04 test extractors.ipynb` tests the extractors on the captured flow samples.
+The example notebook `01 kb overview.ipynb` shows how to query the knowledge base with SQL and Pandas.
 
 ### Adding a new scraper
 
+
 * Flows (raw web requests and responses) are dumped in the `flows` table in the SQLite database `probe.db`. The flows are regularly processed by the scrapers before being removed, ensuring that the file size remains under control. The columns in this table map to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the contents and meaning of field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response).
+
+
+* `02 capture sample.ipynb` lets you capture a sample of flows for later analysis.
+* `03 analyze sample.ipynb` helps you analyze the contents of a captured sample of flows.
+* `04 test extractors.ipynb` tests the extractors on the captured flow samples.
 
 
 ## Development
