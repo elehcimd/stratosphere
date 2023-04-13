@@ -138,9 +138,9 @@ have visibility on the flows intercepted in the last `10` minutes. You might wan
 
 2. Analyze the captured flows. The notebook `03 analyze sample.ipynb` shows how to use some included utility functions to inspect and review the contents of the flows. Once you can manually extract the information you are interested in, including the data to form an UUID for the entities and the relationships, you can move forward.
 
-3. Create a new module in `/shared/src/stratosphere/extractors` that defines a function `extract(rows: List[stratosphere.stoerage.models.Flow])`. A symbolic link to `/shared/` can be found in the root directory of JupyterLab and you can use it to add the new module. Implement the `extract` function s.t. it processes all input flows, inserting them in the knowledge base. You can use `extractor_google_search.py` as example. Recommendations:
+3. Create a new module in `/shared/src/stratosphere/extractors` that defines a function `extract(rows: List[stratosphere.stoerage.models.Flow])`. A symbolic link to `/shared/` can be found in the top directory of JupyterLab and you can use it to add the new module. Implement the `extract` function s.t. it processes all input flows, inserting them in the knowledge base. You can use `extractor_google_search.py` as example. Recommendations:
 
-   * You should use the class `DuplicateRows` are that duplicate entities and relationships are handled correctly, merging the contents of the `data` fields. Depending on your use case, you might need to implement a custom merge strategy.
+   * You should use the class `DuplicateRows` to ensure that duplicate entities and relationships are handled correctly, merging the contents of the `data` fields. Depending on your use case, you might need to implement a custom merge strategy.
    * The fields of `Flow` ORM objects map approximately to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response). The additional column `id` is a random UUID.
 
 
