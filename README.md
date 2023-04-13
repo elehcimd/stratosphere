@@ -36,7 +36,7 @@ docker run --rm --name stratosphere-app -p 8080:8080 -p 127.0.0.1:8082:8082 \
 
 After executing the last command, the container is running in foreground, 
 with all services reporting a `successful` status.
-If you want to interrupt the execution, simply press `ctrl-C` or `cmd-c`.
+If you want to interrupt the execution, simply press `ctrl-c` or `cmd-c`.
 
 ### 3. Configure your browser or device
 
@@ -63,7 +63,7 @@ Follow the instructions for your OS / system and install the CA.
 ### 4. Test the web tracking
 
 You can test that the system is working properly by browsing to https://www.google.com and verifying the presence of
-a banner on the top left corner of the page with the text "[Tracked!]". Congratulations! **Stratosphere** is up and working.
+a banner `[Tracked!]` on the top left corner of the page. Congratulations! **Stratosphere** is up and working.
 The banner is always visible on all tracked pages.
 You can now access the dashboard by clicking on it or browsing to [http://localhost:8082](http://localhost:8082).
 
