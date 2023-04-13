@@ -116,6 +116,7 @@ The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web tr
 ### Adding a new scraper
 
 
+
 * Flows (raw web requests and responses) are dumped in the `flows` table in the SQLite database `probe.db`. The flows are regularly processed by the scrapers before being removed, ensuring that the file size remains under control. The columns in this table map to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the contents and meaning of field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response).
 
 

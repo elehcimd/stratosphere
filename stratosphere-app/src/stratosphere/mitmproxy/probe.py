@@ -69,6 +69,7 @@ async def response(flow):
                 b' text-decoration: none;">'
                 + b'[<a target="_blank"'
                 b' href="http://localhost:8082/jupyter/voila/render/webapps/index.ipynb">Tracked!</a>]'
-                + b"</div>"
+                + b'</div><div style="position: fixed;top:20;left:0;z-index:998;">'
                 + flow.response.content[match.end() :]
+                + b"</div>"
             )
