@@ -110,8 +110,8 @@ The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web tr
 * **mitmproxy**: running the HTTP/S proxy and dumping the flows to `probe.db`
 * **extractor**: reading the flows from `probe.db`, adding entities and relationships to `kb.db` (the pipeline is retriggered every `10` seconds.)
 * **nginx**: proxying all services behind http://localhost:8082
-* **jupterlab/Voilà**: JupyterLab server with Voilà extension to serve the web apps
-* **sqliteweb**: Web-based SQLite database browser
+  * **jupterlab/Voilà**: JupyterLab server with Voilà extension to serve the web apps
+  * **sqliteweb**: Web-based SQLite database browser
 
 ### Adding a new scraper
 
