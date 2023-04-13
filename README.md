@@ -68,7 +68,7 @@ You will see the message `WARNING: No mounted volume detected on /shared`, infor
 that the newly captured information, analyses, and any other modification is lost once the Docker container is terminated.
 If you want to persist the data, you can follow the next optional step.
 
-### 5. How to persist the data
+### 5. How to enable persistance (optional)
 
 You can persist your changes (including the knowledge base, analyses, custom extractors and analyses) by 
 mounting the `stratosphere-app` directory of this repository on the `/shared` mount point in the container.
