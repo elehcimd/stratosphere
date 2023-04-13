@@ -59,17 +59,17 @@ async def response(flow):
 
         # print(flow.request.url)
 
-        # look for body, and inject a div on top
+        # Look for body, and inject a div on top. The rest of the document is embedded in a 2nd div
+        # to ensure that the 1st one remains visible.
         match = re.compile(b"<body(.*?)>").search(flow.response.content)
         if match:
             flow.response.content = (
                 flow.response.content[: match.end()]
-                + b'<div style="display: table; padding:5px; position: fixed;top:0;left:0;z-index:999;'
-                + b"height:20px;font-size:15px;color:black;background-color:white;border: 1px solid black;"
+                + b'<div style="display: table; padding:2px; position: fixed;top:0;left:0;z-index:999;'
+                + b"height:15px;font-size:15px;color:black;background-color:white;border: 1px solid black;"
                 b' text-decoration: none;">'
-                + b'[<a target="_blank"'
-                b' href="http://localhost:8082/jupyter/voila/render/webapps/index.ipynb">Tracked!</a>]'
-                + b'</div><div style="position: fixed;top:20;left:0;z-index:998;">'
+                + b'<a target="_blank" href="http://localhost:8082/jupyter/voila/render/webapps/index.ipynb">S</a>'
+                + b'</div><div style="top:15;left:0;z-index:998;">'
                 + flow.response.content[match.end() :]
                 + b"</div>"
             )

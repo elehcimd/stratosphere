@@ -65,7 +65,7 @@ Follow the instructions for your OS / system and install the CA.
 ### 4. Test the web tracking
 
 You can test that the system is working properly by browsing to https://www.google.com and verifying the presence of
-a banner `[Tracked!]` on the top left corner of the page. Congratulations! **Stratosphere** is up and working.
+a banner `[S]` on the top left corner of the page. Congratulations! **Stratosphere** is up and working.
 The banner is always visible on all tracked pages.
 You can now access the dashboard by clicking on it or browsing to [http://localhost:8082](http://localhost:8082).
 
@@ -105,7 +105,7 @@ The example notebook `01 kb overview.ipynb` shows how to query the knowledge bas
 
 ### The architecture
 
-The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web traffic (both desktop and mobile), building a knowledge base with [SQLite](https://sqlite.org/) that is later accessed by a suite of web apps built with [Jupyter](https://jupyter.org/) and [Voilà](https://voila.readthedocs.io/en/stable/). [supervisor])http://supervisord.org/) is used to manage the running services. The architecture is cross platform and runs locally inside a Docker container. The system includes these running services:
+The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web traffic (both desktop and mobile), building a knowledge base with [SQLite](https://sqlite.org/) that is later accessed by a suite of web apps built with [Jupyter](https://jupyter.org/) and [Voilà](https://voila.readthedocs.io/en/stable/). [supervisor])http://supervisord.org/) is used to manage the running services. The architecture is cross platform and runs locally inside a Docker container. The system includes these running services (entry points in `/shared/services/`):
 
 * **mitmproxy**: running the HTTP/S proxy and dumping the flows to `probe.db`.
 * **extractor**: reading the flows from `probe.db`, adding entities and relationships to `kb.db`. The pipeline is retriggered every `10` seconds and it will delete all flows older than `10` minutes, possibly reprocessing already seen flows. This procedure ensures that recent traffic can always be inspected in `probe.db` without retaining the whole flows history.
