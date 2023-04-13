@@ -109,7 +109,7 @@ You can access JupyterLab from the main dashboard. The notebooks located in the 
 
 The example notebook `01 kb overview.ipynb` shows how to query the knowledge base with SQL and Pandas. The `stratosphere` Python package is included directly from source extending the `PYTHONPATH` env variable and it is located at `/shared/src/stratosphere`. Modifications to the source code are hot-reloaded in the notebooks thanks to `%autoreload` (useful during development).
 
-### The system architecture
+## The system architecture
 
 The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web traffic (both desktop and mobile), building a knowledge base with [SQLite](https://sqlite.org/) that is later accessed by a suite of web apps built with [Jupyter](https://jupyter.org/) and [Voilà](https://voila.readthedocs.io/en/stable/). [supervisor])http://supervisord.org/) is used to manage the running services. The architecture is cross platform and runs locally inside a Docker container. The system includes these running services (entry points in `/shared/services/`):
 
@@ -119,7 +119,7 @@ The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web tr
   * **jupterlab/Voilà**: JupyterLab server with Voilà extension to serve the web apps.
   * **sqliteweb**: Web-based SQLite database browser pointing to `kb.db`.
 
-### How to add a new extractor
+## How to add a new extractor
 
  **Attention**: You are warmly invited to contribute new extractors with test data samples. Thank You!
 
@@ -143,13 +143,9 @@ have visibility on the flows intercepted in the last `10` minutes. You might wan
    * You should use the class `DuplicateRows` to ensure that duplicate entities and relationships are handled correctly, merging the contents of the `data` fields. Depending on your use case, you might need to implement a custom merge strategy.
    * The fields of `Flow` ORM objects map approximately to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response). The additional column `id` is a random UUID.
 
-
 5. Test the new extractor extending `04 test extractors.ipynb`.
 
 ## Development
-
-### How does it work?
-
 
 ### Useful Docker parameters
 
