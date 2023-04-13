@@ -55,6 +55,9 @@ RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 # Copy contents of shared folder
 ADD . /shared
 
+# Used to test if there's a mounted volume or not, showing a warning for data loss
+RUN echo > /shared/warning_no_mounted_volume
+
 # Add /shared to pythonpath: packages defined in this directory will be visible from Python.
 ENV PYTHONPATH /shared/src/
 

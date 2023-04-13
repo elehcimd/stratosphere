@@ -61,7 +61,45 @@ Follow the instructions for your OS / system and install the CA.
 You can test that the system is working properly by browsing to https://www.google.com and verifying the presence of
 a banner `[S]` on the top left corner of the page. Congratulations! **Stratosphere** is up and working properly.
 The banner is always visible on all tracked pages. If missing, try refreshing the page with `ctrl-r`.
+
 You can now access the dashboard by clicking on it or browsing to [http://localhost:8082](http://localhost:8082).
+
+You will see the message `WARNING: No mounted volume detected on /shared`, informing you
+that the newly captured information, analyses, and any other modification is lost once the Docker container is terminated.
+If you want to persist the data, you can follow the next optional step.
+
+### 5. How to persist the data
+
+You can persist your changes (including the knowledge base, analyses, custom extractors and analyses) by 
+mounting the `stratosphere-app` directory of this repository on the `/shared` mount point in the container.
+
+Firstly, clone this repository and verify the absolute path of the directory you want to mount:
+
+```
+git clone https://github.com/elehcimd/stratosphere.git
+cd stratosphere/stratosphere-app
+pwd
+```
+
+Assuming that the absolute path to the directory is `/absolute-path-to-stratosphere-repos/stratosphere-app`, 
+execute from the command line:
+
+```
+docker run -d --rm --name stratosphere-app -p 8080:8080 -p 127.0.0.1:8082:8082 \
+  -v /absolute-path-to-stratosphere-repos/stratosphere-app:/shared micheda/stratosphere-app:latest
+```
+
+On Windows, the host path (before `:`) must be a valid Windows path (meaning: it starts with `C://....`).
+The additional parameter `-v` takes care of mounting the volume, `-d` runs the container in background.
+
+An overview of useful Docker parameters:
+
+* [--rm](https://docs.docker.com/engine/reference/run/#clean-up---rm): Docker will automatically clean up the container and remove the file system when the container exits. If you want to retain the container’s file system, remove `--rm`.
+* [-p](https://docs.docker.com/engine/reference/run/#expose-incoming-ports): Publish the container's port on the host. The format is `host_ip:host_port:container_port`. If you drop the `host_ip`, the port will be published on all interfaces. By default, the proxy runs on all intefaces, but the web interface is accessible only from localhost.
+* [--name](https://docs.docker.com/engine/reference/run/#name---name): Name your container. 
+* [-d](https://docs.docker.com/engine/reference/run/#detached-vs-foreground): Start the container in background.
+* [-it](https://docs.docker.com/engine/reference/run/#foreground): Allocate a pseudo-tty and keep STDIN open even if not attached. Useful if you want to access directly the container from terminal, via `docker execute`.
+* [-v](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems): Bind mount a volume.
 
 ## Core concepts
 
@@ -156,4 +194,4 @@ Some useful options if you want to customise it:
 * [--name](https://docs.docker.com/engine/reference/run/#name---name): Name your container. 
 * [-d](https://docs.docker.com/engine/reference/run/#detached-vs-foreground): Start the container in background.
 * [-it](https://docs.docker.com/engine/reference/run/#foreground): Allocate a pseudo-tty and keep STDIN open even if not attached. Useful if you want to access directly the container from terminal, via `docker execute`.
-* [-v](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems): Bind mount a volume. For development and persistance, you can mount the absolute path of the `stratosphere-app` directory to `/shared` with `-v /absolute-path-to-stratosphere-repos/stratosphere-app/:/shared`. On Windows, the host path (before `:`) must be a valid Windows path.
+* [-v](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems): Bind mount a volume.
