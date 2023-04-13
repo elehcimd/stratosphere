@@ -103,7 +103,7 @@ consolidate the knowledge in a unifying entity, merging the different data point
 Furthermore, UUIDs are the sole connection between entities and relationships.
 For these reasons, it is critical to have a solid, robust design of the extraction of UUIDs for entities and relationships.
 
-### Adding new Jupyter notebooks and Voilà web apps
+### How to create new Jupyter notebooks and Voilà web apps
 
 You can access JupyterLab from the main dashboard. The notebooks located in the subdirectory `webapps` are also published as Voilà web applications.
 
