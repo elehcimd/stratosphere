@@ -81,12 +81,12 @@ cd stratosphere/stratosphere-app
 pwd
 ```
 
-Assuming that the absolute path to the directory is `/absolute-path-to-stratosphere-repos/stratosphere-app`, 
+Assuming that the absolute path to the directory is `/xyz/stratosphere-app`, 
 execute from the command line:
 
 ```
 docker run -d --rm --name stratosphere-app -p 8080:8080 -p 127.0.0.1:8082:8082 \
-  -v /absolute-path-to-stratosphere-repos/stratosphere-app:/shared micheda/stratosphere-app:latest
+  -v /xyz/stratosphere-app:/shared micheda/stratosphere-app:latest
 ```
 
 On Windows, the host path (before `:`) must be a valid Windows path (meaning: it starts with `C://....`).
