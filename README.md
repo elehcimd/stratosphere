@@ -95,7 +95,7 @@ You can now access the dashboard by clicking on it or browsing to [http://localh
 ### Adding new Jupyter notebooks and Voilà web apps
 
 You can access Jupyter lab from the main dashboard. The notebooks located in the subdirectory `webapps` are also published as Voilà web applications.
-The example notebook `01 kb overview.ipynb` shows how to query the knowledge base with SQL and Pandas.
+The example notebook `01 kb overview.ipynb` shows how to query the knowledge base with SQL and Pandas. The `stratosphere` Python package is included directly from source extending the `PYTHONPATH` env variable and it is located at `/shared/src/stratosphere`.
 
 ### Adding a new scraper
 
