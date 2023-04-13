@@ -99,8 +99,19 @@ Relationships are uniquely identified by the UUIDs obtained from hashing the con
 
 ### Adding new Jupyter notebooks and Voilà web apps
 
-You can access Jupyter lab from the main dashboard. The notebooks located in the subdirectory `webapps` are also published as Voilà web applications.
-The example notebook `01 kb overview.ipynb` shows how to query the knowledge base with SQL and Pandas. The `stratosphere` Python package is included directly from source extending the `PYTHONPATH` env variable and it is located at `/shared/src/stratosphere`. Modifications to the source code are hot-reloaded in the notebooks thanks to `%autoreload`.
+You can access JupyterLab from the main dashboard. The notebooks located in the subdirectory `webapps` are also published as Voilà web applications.
+
+The example notebook `01 kb overview.ipynb` shows how to query the knowledge base with SQL and Pandas. The `stratosphere` Python package is included directly from source extending the `PYTHONPATH` env variable and it is located at `/shared/src/stratosphere`. Modifications to the source code are hot-reloaded in the notebooks thanks to `%autoreload` (useful during development).
+
+### The architecture
+
+The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web traffic (both desktop and mobile), building a knowledge base with [SQLite](https://sqlite.org/) that is later accessed by a suite of web apps built with [Jupyter](https://jupyter.org/) and [Voilà](https://voila.readthedocs.io/en/stable/). [supervisor])http://supervisord.org/) is used to manage the running services. The architecture is cross platform and runs locally inside a Docker container. The system includes these running services:
+
+* **mitmproxy**: running the HTTP/S proxy and dumping the flows to `probe.db`
+* **extractor**: reading the flows from `probe.db`, adding entities and relationships to `kb.db` (the pipeline is retriggered every `10` seconds.)
+* **nginx**: proxying all services behind http://localhost:8082
+* **jupterlab/Voilà**: JupyterLab server with Voilà extension to serve the web apps
+* **sqliteweb**: Web-based SQLite database browser
 
 ### Adding a new scraper
 
@@ -117,7 +128,6 @@ The example notebook `01 kb overview.ipynb` shows how to query the knowledge bas
 
 ### How does it work?
 
-The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web traffic (both desktop and mobile), building a knowledge base with [SQLite](https://sqlite.org/) that is later accessed by a suite of web apps built with [Jupyter](https://jupyter.org/) and [Voilà](https://voila.readthedocs.io/en/stable/). The architecture is cross platform and runs locally inside a Docker container.
 
 ### Useful Docker parameters
 
