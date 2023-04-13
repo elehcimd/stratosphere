@@ -141,8 +141,8 @@ have visibility on the flows intercepted in the last `10` minutes. You might wan
 3. Create a new module in `/shared/src/stratosphere/extractors` that defines a function `extract(rows: List[stratosphere.stoerage.models.Flow])`.
 4. Implement the `extract` function s.t. it processes all input flows, inserting them in the knowledge base. You can use `extractor_google_search.py` as example. Recommendations:
 
-  * You should use the class `DuplicateRows` are that duplicate entities and relationships are handled correctly, merging the contents of the `data` fields. Depending on your use case, you might need to implement a custom merge strategy.
-  * The fields of `Flow` ORM objects map approximately to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response). The additional column `id` is a random UUID.
+   * You should use the class `DuplicateRows` are that duplicate entities and relationships are handled correctly, merging the contents of the `data` fields. Depending on your use case, you might need to implement a custom merge strategy.
+   * The fields of `Flow` ORM objects map approximately to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response). The additional column `id` is a random UUID.
 
 
 5. Test the new extractor extending `04 test extractors.ipynb`.
