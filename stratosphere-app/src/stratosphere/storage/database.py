@@ -54,11 +54,13 @@ class Database:
         # Set up database connector, without establishing any connection yet
         # https://docs.sqlalchemy.org/en/13/core/pooling.html#disconnect-handling-pessimistic
         self.engine = create_engine(
-            self.url, echo=options.get("db.echo"), pool_pre_ping=options.get("db.pool_pre_ping")
+            self.url,
+            echo=options.get("db.echo"),
+            pool_pre_ping=options.get("db.pool_pre_ping"),
         )
 
         # Session factory
-        self.session = sessionmaker(self.engine)
+        self.session = sessionmaker(self.engine, autoflush=options.get("db.autoflush"))
 
         # create tables if missing
         Base.metadata.create_all(self.engine)
@@ -186,7 +188,8 @@ def pandas_query(
     else:
         df = pd.read_sql_query(query, session.bind)
 
-    return df.apply(pd.to_numeric, errors="ignore")
+    # return df.apply(pd.to_numeric, errors="ignore")
+    return df
 
 
 def next_ulid() -> str:

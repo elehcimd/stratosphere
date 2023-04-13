@@ -15,5 +15,5 @@ trap "kill -- -$$" EXIT
 # Required to avoid some HTTP/2 errors, happening on https://www.nginx.com/ and some other websites
 # https://github.com/mitmproxy/mitmproxy/issues/4836
 
-mitmdump --set validate_inbound_headers=false --set confdir=/shared/mitmproxy_confdir   --scripts /shared/src/stratosphere/mitmproxy/probe.py
+mitmdump --set validate_inbound_headers=false --set confdir=/shared/mitmproxy_confdir   --scripts /shared/src/stratosphere/services/mitmproxy.py
 

@@ -103,7 +103,7 @@ You can access JupyterLab from the main dashboard. The notebooks located in the 
 
 The example notebook `01 kb overview.ipynb` shows how to query the knowledge base with SQL and Pandas. The `stratosphere` Python package is included directly from source extending the `PYTHONPATH` env variable and it is located at `/shared/src/stratosphere`. Modifications to the source code are hot-reloaded in the notebooks thanks to `%autoreload` (useful during development).
 
-### The architecture
+### The system architecture
 
 The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web traffic (both desktop and mobile), building a knowledge base with [SQLite](https://sqlite.org/) that is later accessed by a suite of web apps built with [Jupyter](https://jupyter.org/) and [Voilà](https://voila.readthedocs.io/en/stable/). [supervisor])http://supervisord.org/) is used to manage the running services. The architecture is cross platform and runs locally inside a Docker container. The system includes these running services (entry points in `/shared/services/`):
 
@@ -113,17 +113,15 @@ The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web tr
   * **jupterlab/Voilà**: JupyterLab server with Voilà extension to serve the web apps.
   * **sqliteweb**: Web-based SQLite database browser pointing to `kb.db`.
 
-### Adding a new scraper
+### How to add a new scraper
 
+Scrapers are executed by the **extractor** service.
 
-
-* Flows (raw web requests and responses) are dumped in the `flows` table in the SQLite database `probe.db`. The flows are regularly processed by the scrapers before being removed, ensuring that the file size remains under control. The columns in this table map to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the contents and meaning of field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response).
-
+* Flows (raw web requests and responses) are dumped in the `flows` table in the SQLite database `probe.db`. The flows are regularly processed by the scrapers before being removed, ensuring that the file size remains under control. The columns in this table map to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the contents and meaning of field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response). The additional column `id` is a random UUID.
 
 * `02 capture sample.ipynb` lets you capture a sample of flows for later analysis.
 * `03 analyze sample.ipynb` helps you analyze the contents of a captured sample of flows.
 * `04 test extractors.ipynb` tests the extractors on the captured flow samples.
-
 
 ## Development
 

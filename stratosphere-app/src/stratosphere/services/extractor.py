@@ -1,10 +1,10 @@
 import os
+import pkgutil
 import time
+from importlib import import_module, invalidate_caches
 
+import stratosphere.extractors
 from stratosphere.options import options
-from stratosphere.services.extractors.dummy import extractor as dummy_extract
-from stratosphere.services.extractors.search_google import extractor as extractor_search_google
-from stratosphere.services.extractors.vk01 import extractor as extractor_vk01
 from stratosphere.storage.models import Flow
 from stratosphere.stratosphere import Stratosphere
 from stratosphere.utils.log import init_logging, logger
@@ -14,18 +14,14 @@ class Extractor:
     def __init__(self, url=None):
         if url is None:
             url = options.get("db.url_probe")
-
         self.url = url
 
-        self.s_kb = Stratosphere(options.get("db.url_kb"))
-
-        self.extractors = {}
-        self.register_extractor(dummy_extract)
-        self.register_extractor(extractor_vk01)
-        self.register_extractor(extractor_search_google)
-
-    def register_extractor(self, extractor_desc):
-        self.extractors[extractor_desc["name"]] = extractor_desc["func"]
+        invalidate_caches()
+        self.extractor_funcs = []
+        for _, module_name, _ in pkgutil.iter_modules(stratosphere.extractors.__path__):
+            logger.info(f"Registering extractor: {module_name}")
+            m = import_module(f"stratosphere.extractors.{module_name}")
+            self.extractor_funcs.append(m.extract)
 
     def process(self):
         self.s_probe = Stratosphere(self.url)
@@ -33,8 +29,7 @@ class Extractor:
         with self.s_probe.db.session() as session:
             rows = session.query(Flow).all()
         logger.info(f"Processing {len(rows)} flows: start")
-
-        for extractor_func in self.extractors.values():
+        for extractor_func in self.extractor_funcs:
             extractor_func(rows)
         logger.info(f"Processing {len(rows)} flows: end")
 

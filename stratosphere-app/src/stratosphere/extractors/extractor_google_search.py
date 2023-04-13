@@ -4,7 +4,7 @@ from urllib.parse import parse_qs, urlparse
 from bs4 import BeautifulSoup
 from stratosphere.storage.models import Entity, Relationship
 from stratosphere.stratosphere import Stratosphere, options
-from stratosphere.utils.extractor_utils import DuplicateRows, get_uuid_hash
+from stratosphere.utils.extractor_utils import DuplicateRows, get_uuid_hash, get_uuid_pair_hash
 from stratosphere.utils.log import compact_exception_message, logger
 
 
@@ -24,7 +24,7 @@ def extract_search_results(rows):
         try:
             query = parse_qs(urlparse(row.flow_request_url).query, keep_blank_values=True)
 
-            search_string = query["q"][0]
+            search_string = query["q"][0].strip()
 
             urls = []
 
@@ -57,11 +57,10 @@ def extract_search_results(rows):
             continue
 
         entity1 = Entity(
-            entity_id=get_uuid_hash(search_string),
-            group="google_search",
-            type="search_string",
+            id=get_uuid_hash(search_string),
+            type="google.com/search_query",
             data=json.dumps({"q": search_string}),
-            timestamp=row.flow_capture_timestamp,
+            ts=row.flow_capture_timestamp,
         )
 
         # print(entity.as_dict())
@@ -70,35 +69,30 @@ def extract_search_results(rows):
 
         for url in urls:
             entity2 = Entity(
-                entity_id=get_uuid_hash(f'{url["url"]}'),
-                group="google_search",
-                type="search_result",
+                id=get_uuid_hash(f'{url["url"]}'),
+                type="google.com/search_result",
                 data=json.dumps(url),
-                timestamp=row.flow_capture_timestamp,
+                ts=row.flow_capture_timestamp,
             )
             # print(entity.as_dict())
 
             dup_rows.add([entity2])
 
             rel = Relationship(
-                group="google_search",
-                type="search_result",
-                relationship_id=get_uuid_hash(f"{entity1.entity_id}-{entity2.entity_id}"),
-                src=entity1.entity_id,
-                dst=entity2.entity_id,
+                type="google.com/search_result",
+                id=get_uuid_pair_hash(entity1.id, entity2.id),
+                src=entity1.id,
+                dst=entity2.id,
                 data=json.dumps(url),
-                timestamp=row.flow_capture_timestamp,
+                ts=row.flow_capture_timestamp,
             )
 
             dup_rows.add([rel])
 
-        logger.info(f'Added google search {entity1.entity_id} ({len(urls)} results for query "{search_string}")')
+        logger.info(f'Added google search {entity1.id} ({len(urls)} results for query "{search_string}")')
 
         dup_rows.merge_and_commit()
 
 
 def extract(rows):
     extract_search_results(rows)
-
-
-extractor = {"name": "se-google-01", "func": extract}

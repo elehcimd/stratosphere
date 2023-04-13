@@ -27,6 +27,10 @@ def is_json(data):
         return False
 
 
+def get_uuid_pair_hash(uuid1, uuid2):
+    return get_uuid_hash(f"{uuid1}{uuid2}")
+
+
 def get_uuid_hash(data):
     return uuid.UUID(hex=hashlib.md5(f"{data}".encode()).hexdigest()).hex  # noqa
 
@@ -53,27 +57,26 @@ class DuplicateRows:
     def add(self, rows):
         for row in rows:
             if isinstance(row, Entity):
-                if row.entity_id not in self.entities:
-                    self.entities[row.entity_id] = [row]
+                if row.id not in self.entities:
+                    self.entities[row.id] = [row]
                 else:
-                    self.entities[row.entity_id].append(row)
+                    self.entities[row.id].append(row)
             else:
-                if row.relationship_id not in self.relationships:
-                    self.relationships[row.relationship_id] = [row]
+                if row.id not in self.relationships:
+                    self.relationships[row.id] = [row]
                 else:
-                    self.relationships[row.relationship_id].append(row)
+                    self.relationships[row.id].append(row)
         return self
 
     def merge_and_commit(self):
         with self.db.session() as session:
-            rows = session.query(Entity).filter(Entity.entity_id.in_(self.entities.keys())).all()
+            rows = session.query(Entity).filter(Entity.id.in_(self.entities.keys())).all()
             self.add(rows)
-            rows = session.query(Relationship).filter(Relationship.relationship_id.in_(self.relationships.keys())).all()
+            rows = session.query(Relationship).filter(Relationship.id.in_(self.relationships.keys())).all()
             self.add(rows)
 
         self.dedup_rows = []
-        for _entity_id, rows in self.entities.items():
-            # print(entity_id, len(rows))
+        for rows in self.entities.values():
             candidate = rows[0]
             candidate_data = json.loads(candidate.data) if candidate.data else {}
 

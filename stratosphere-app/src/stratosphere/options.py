@@ -9,6 +9,7 @@ default_options = {
         "url_kb": "sqlite:////shared/data/kb.db",
         "echo": False,
         "pool_pre_ping": True,
+        "autoflush": False,
         "ask_password": False,
         "query_read_chunk_size": 1000,
         "query_write_chunk_size": 1000,

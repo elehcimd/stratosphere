@@ -3,7 +3,14 @@ from urllib.parse import parse_qs
 
 from stratosphere.storage.models import Entity, Relationship
 from stratosphere.stratosphere import Stratosphere, options
-from stratosphere.utils.extractor_utils import DuplicateRows, decode, get_uuid_hash, json_loads, re_match
+from stratosphere.utils.extractor_utils import (
+    DuplicateRows,
+    decode,
+    get_uuid_hash,
+    get_uuid_pair_hash,
+    json_loads,
+    re_match,
+)
 from stratosphere.utils.log import compact_exception_message, logger
 
 
@@ -53,9 +60,8 @@ def track_user(rows):
         dup_rows = DuplicateRows(s_kb.db)
 
         person1 = Entity(
-            entity_id=get_uuid_hash(user_id),
-            group="vk.com",
-            type="person",
+            id=get_uuid_hash(user_id),
+            type="vk.com/person",
             data=json.dumps(
                 {
                     "user_ids": user_ids,
@@ -70,39 +76,37 @@ def track_user(rows):
                     "url_picture": None,
                 }
             ),
-            timestamp=row.flow_capture_timestamp,
+            ts=row.flow_capture_timestamp,
         )
 
         # print(person.as_dict())
 
         dup_rows.add([person1])
 
-        logger.info(f"Added entity {person1.entity_id} ({full_name})")
+        logger.info(f"Added entity {person1.id} ({full_name})")
 
         if prev_user_id:
             person2 = Entity(
-                entity_id=get_uuid_hash(prev_user_id),
-                group="vk.com",
-                type="person",
+                id=get_uuid_hash(prev_user_id),
+                type="vk.com/person",
                 data=json.dumps(
                     {
                         "user_ids": [get_uuid_hash(prev_user_id)],
                     }
                 ),
-                timestamp=row.flow_capture_timestamp,
+                ts=row.flow_capture_timestamp,
             )
 
             rel = Relationship(
-                relationship_id=get_uuid_hash(f"{person2.entity_id}-{person1.entity_id}"),
-                group="vk.com",
-                src=person2.entity_id,
-                dst=person1.entity_id,
-                type="friend",
-                timestamp=row.flow_capture_timestamp,
+                id=get_uuid_pair_hash(person2.id, person1.id),
+                type="vk.com/friend",
+                src=person2.id,
+                dst=person1.id,
+                ts=row.flow_capture_timestamp,
             )
             dup_rows.add([rel])
 
-            logger.info(f"Added relationship {person2.entity_id} -> {person1.entity_id}")
+            logger.info(f"Added relationship {person2.id} -> {person1.id}")
 
         dup_rows.merge_and_commit()
 
@@ -136,16 +140,15 @@ def track_friends(rows):
         src_user_ids = parse_qs(decode(row.flow_request_content))["id"]
 
         person1 = Entity(
-            entity_id=get_uuid_hash(src_user_ids[0]),
-            group="vk.com",
-            type="person",
+            id=get_uuid_hash(src_user_ids[0]),
+            type="vk.com/person",
             data=json.dumps({"user_ids": json.dumps(src_user_ids)}),
-            timestamp=row.flow_capture_timestamp,
+            ts=row.flow_capture_timestamp,
         )
 
         dup_rows.add([person1])
         # session.merge(person1)
-        logger.info(f"Added entity {person1.entity_id}")
+        logger.info(f"Added entity {person1.id}")
         # print(person1.as_dict())
 
         for friend in friends:
@@ -154,9 +157,8 @@ def track_friends(rows):
             dst_user_ids = [str(friend[0])]
 
             person2 = Entity(
-                entity_id=get_uuid_hash(dst_user_ids[0]),
-                group="vk.com",
-                type="person",
+                id=get_uuid_hash(dst_user_ids[0]),
+                type="vk.com/person",
                 data=json.dumps(
                     {
                         "user_ids": json.dumps(dst_user_ids),
@@ -165,22 +167,17 @@ def track_friends(rows):
                         "full_name": friend[5],
                     }
                 ),
-                timestamp=row.flow_capture_timestamp,
+                ts=row.flow_capture_timestamp,
             )
 
             dup_rows.add([person2])
 
-            # logger.info(f"Added entity {person2.entity_id}")
-
-            # print(person2.as_dict())
-
             rel = Relationship(
-                relationship_id=get_uuid_hash(f"{src_user_ids[0]}-{dst_user_ids[0]}"),
-                group="vk.com",
-                src=person1.entity_id,
-                dst=person2.entity_id,
-                type="friend",
-                timestamp=row.flow_capture_timestamp,
+                id=get_uuid_pair_hash(person1.id, person2.id),
+                type="vk.com/friend",
+                src=person1.id,
+                dst=person2.id,
+                ts=row.flow_capture_timestamp,
             )
 
             dup_rows.add([rel])
@@ -190,12 +187,9 @@ def track_friends(rows):
 
         dup_rows.merge_and_commit()
 
-        logger.info(f"Added {len(friends)} friends of entity {person1.entity_id}")
+        logger.info(f"Added {len(friends)} friends of entity {person1.id}")
 
 
 def extract(rows):
     track_friends(rows)
     track_user(rows)
-
-
-extractor = {"name": "vk01", "func": extract}
