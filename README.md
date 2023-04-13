@@ -34,6 +34,8 @@ After executing the last command, the container is running in foreground,
 with all services reporting a `successful` status.
 If you want to interrupt the execution, simply press `ctrl-c` or `cmd-c`.
 
+> To build the image yourself, `docker build -t stratosphere-app .` from the `stratosphere-app` directory of this repository will do the trick.
+
 ### 3. Configure your browser or device
 
 You need to configure your browser or device to route all traffic through the HTTP proxy listening on:
@@ -180,6 +182,12 @@ have visibility on the flows intercepted in the last `10` minutes. You might wan
 5. Test the new extractor extending `04 test extractors.ipynb`.
 
 ## Development
+
+My setup:
+
+1. VSCode on the host
+2. Fabric script to manage the container, see `fabfile.py`
+3. Separate browser instance with enabled proxy to capture flows
 
 ### Useful Docker parameters
 

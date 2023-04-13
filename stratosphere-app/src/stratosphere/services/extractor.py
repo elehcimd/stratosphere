@@ -63,7 +63,7 @@ def main():
                 <= func_time_now() - timedelta(seconds=options.get("extractors.expired_flows"))
             ).delete()
             session.commit()
-        s_probe.db.vacuum()  # remove the records marked as deleted, freeing space.
+        # s_probe.db.vacuum()  # remove the records marked as deleted, freeing space.
         logger.info(f"Waiting {options.get('extractors.loop_wait')}s")
         time.sleep(options.get("extractors.loop_wait"))
 

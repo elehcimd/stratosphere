@@ -19,7 +19,7 @@ RUN pip3 install --upgrade pip
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
 
 # Install additional packages
-RUN apt-get -y install ssh htop git vim net-tools curl build-essential sqlite3
+RUN apt-get -y install ssh htop git vim net-tools curl build-essential sqlite3 psmisc
 
 # install nodejs
 RUN curl --insecure -sL https://deb.nodesource.com/setup_18.x -o /tmp/nodesource_setup.sh
@@ -27,7 +27,7 @@ RUN bash /tmp/nodesource_setup.sh
 RUN apt-get -y install build-essential nodejs
 
 # install npm packages globally
-RUN npm install next react react-dom -g
+# RUN npm install next react react-dom -g
 
 # Source the bashrc, used also with the services managed by supervisord.
 RUN echo "source /shared/bashrc" >>/root/.bashrc
