@@ -1,4 +1,4 @@
-# **stratosphere** project
+# The **stratosphere** project
 
 ---
 
