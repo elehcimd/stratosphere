@@ -75,7 +75,7 @@ You can now access the dashboard by clicking on it or browsing to [http://localh
 
 How does it work? The system relies on [mitmproxy](https://mitmproxy.org/) to intercept your web traffic (both desktop and mobile), building a knowledge base with [SQLite](https://sqlite.org/) that is later accessed by a suite of web apps built with [Jupyter](https://jupyter.org/) and [Voilà](https://voila.readthedocs.io/en/stable/). The architecture is cross platform and runs locally inside a Docker container.
 
-### Docker parameters
+### Useful Docker parameters
 
 Some useful options if you want to customise it:
 
@@ -84,3 +84,4 @@ Some useful options if you want to customise it:
 * [--name](https://docs.docker.com/engine/reference/run/#name---name): Name your container. 
 * [-d](https://docs.docker.com/engine/reference/run/#detached-vs-foreground): Start the container in background.
 * [-it](https://docs.docker.com/engine/reference/run/#foreground): Allocate a pseudo-tty and keep STDIN open even if not attached. Useful if you want to access directly the container from terminal, via `docker execute`.
+* [-v](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems): Bind mount a volume. For development and persistance, you can mount the absolute path of the `stratosphere-app` directory to `/shared` with `-v /absolute-path-to-stratosphere-repos/stratosphere-app/:/shared`. On Windows, the host path (before `:`) must be a valid Windows path.
