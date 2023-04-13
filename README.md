@@ -89,7 +89,7 @@ You can now access the dashboard by clicking on it or browsing to [http://localh
   - `ts`:
 
 
-  * Flows (raw web requests and responses) are dumped in the `flows` table. The columns in this table map to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the contents and meaning of field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response).
+* Flows (raw web requests and responses) are dumped in the `flows` table. The columns in this table map to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the contents and meaning of field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response).
 
 ## Development
 
