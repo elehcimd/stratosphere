@@ -107,11 +107,11 @@ The example notebook `01 kb overview.ipynb` shows how to query the knowledge bas
 
 The system relies on [mitmproxy](https://mitmproxy.org/) to intercept the web traffic (both desktop and mobile), building a knowledge base with [SQLite](https://sqlite.org/) that is later accessed by a suite of web apps built with [Jupyter](https://jupyter.org/) and [Voilà](https://voila.readthedocs.io/en/stable/). [supervisor])http://supervisord.org/) is used to manage the running services. The architecture is cross platform and runs locally inside a Docker container. The system includes these running services:
 
-* **mitmproxy**: running the HTTP/S proxy and dumping the flows to `probe.db`
-* **extractor**: reading the flows from `probe.db`, adding entities and relationships to `kb.db` (the pipeline is retriggered every `10` seconds.)
-* **nginx**: proxying all services behind http://localhost:8082
-  * **jupterlab/Voilà**: JupyterLab server with Voilà extension to serve the web apps
-  * **sqliteweb**: Web-based SQLite database browser
+* **mitmproxy**: running the HTTP/S proxy and dumping the flows to `probe.db`.
+* **extractor**: reading the flows from `probe.db`, adding entities and relationships to `kb.db`. The pipeline is retriggered every `10` seconds and it will delete all flows older than `10` minutes, possibly reprocessing already seen flows. This procedure ensures that recent traffic can always be inspected in `probe.db` without retaining the whole flows history.
+* **nginx**: proxying all services behind http://localhost:8082.
+  * **jupterlab/Voilà**: JupyterLab server with Voilà extension to serve the web apps.
+  * **sqliteweb**: Web-based SQLite database browser pointing to `kb.db`.
 
 ### Adding a new scraper
 
