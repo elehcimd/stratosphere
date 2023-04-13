@@ -2,7 +2,7 @@
 
 ---
 
-**stratosphere** is a free and open source OSINT platform that automatically collects every page you visit, building an internal knowledge base you can analyze with Jupyter notebooks and explore with an extensible suite of simple web apps:
+**stratosphere** is a free and open source OSINT platform that automatically collects every page you visit, building a private knowledge base you can analyze with Jupyter notebooks and explore with an extensible suite of simple web apps:
 
 * **Google sarch results**: Review your past Google search results
 * **vk.com contacts explorer**: Explore previously seen vk.com contacts, highlighting their connections
