@@ -1,27 +1,21 @@
 import getpass
-import re
-import uuid
+import os
 from functools import partial
 from typing import Callable, Iterator, List, Union
 
 import pandas as pd
-from stratosphere.options import options
-from stratosphere.storage.models import Base
-from stratosphere.utils.log import logger
-from stratosphere.utils.progress import progress
 from sqlalchemy import MetaData, Table, create_engine, sql
 from sqlalchemy.engine import make_url
 from sqlalchemy.exc import NoSuchTableError
 from sqlalchemy.orm import Query, sessionmaker
-from ulid import monotonic as ulid
+
+from stratosphere.options import options
+from stratosphere.storage.models import Base
+from stratosphere.utils.log import logger
+from stratosphere.utils.progress import progress
 
 
 class Database:
-    """
-    This class is the entry point for all things SQLAlchemy, and it represents the link
-    to the database for experiments and runs. It uses the SQAlchemy 1.4 API interface.
-    """
-
     def __init__(self, url: str = None, lazy=False, ask_password=False):
         """It creates a new database interface.
 
@@ -41,10 +35,6 @@ class Database:
             url = url.replace("postgres://", "postgresql://")
 
         if lazy:
-            # We activate this flag in the __reduce__, called upon pickling.
-            # This behaviour allows to use sqlite in memory, since only one sqlite instance
-            # gets created and reused for all experiments, runs, created or loaded via unpickling.
-            # Further, it let us not run into pickling errors, which do happen with SQLAlchemy objects.
             return
 
         self.url = make_url(url)
@@ -54,11 +44,13 @@ class Database:
         # Set up database connector, without establishing any connection yet
         # https://docs.sqlalchemy.org/en/13/core/pooling.html#disconnect-handling-pessimistic
         self.engine = create_engine(
-            self.url, echo=options.get("db.echo"), pool_pre_ping=options.get("db.pool_pre_ping")
+            self.url,
+            echo=options.get("db.echo"),
+            pool_pre_ping=options.get("db.pool_pre_ping"),
         )
 
         # Session factory
-        self.session = sessionmaker(self.engine)
+        self.session = sessionmaker(self.engine, autoflush=options.get("db.autoflush"))
 
         # create tables if missing
         Base.metadata.create_all(self.engine)
@@ -73,6 +65,9 @@ class Database:
     def info(self):
         """Log some stats about the database."""
         logger.info(f"Database: {self.url.render_as_string(hide_password=True)}")
+
+    def size(self):
+        return os.path.getsize(self.url.database) / (1024 * 1024)
 
     def drop_table(self, name: str):
         """Drop database table if it exists.
@@ -131,16 +126,6 @@ class Database:
                 tqdm_total=tqdm_total,
             )
 
-            # handle UUID type conversions. If the DB handled natively UUID columns,
-            # SQLAlchemy is already handling it transparently. If it doesn't, we need
-            # to detect it, and apply the conversion.
-            if len(df) > 0:
-                if "id_run" in df and not isinstance(df["id_run"].iloc[0], uuid.UUID):
-                    df["id_run"] = df["id_run"].apply(uuid.UUID)
-
-                if "id_experiment" in df and not isinstance(df["id_experiment"].iloc[0], uuid.UUID):
-                    df["id_experiment"] = df["id_experiment"].apply(uuid.UUID)
-
             return df
 
 
@@ -176,7 +161,7 @@ def pandas_query(
     if use_tqdm:
         if tqdm_total is None:
             # If hint on total not available, query the database for it
-            tqdm_total = session.execute(f"SELECT COUNT(*) FROM ({query}) t").first()[0]
+            tqdm_total = session.execute(f"SELECT COUNT(*) FROM ({query}) t").first()[0]  # noqa
 
         df_chunks = pd.read_sql_query(query, session.bind, chunksize=options.get("db.query_read_chunk_size"))
         funcs = [partial(lambda df_chunk: (len(df_chunk), df_chunk), df_chunk) for df_chunk in df_chunks]
@@ -186,16 +171,7 @@ def pandas_query(
     else:
         df = pd.read_sql_query(query, session.bind)
 
-    return df.apply(pd.to_numeric, errors="ignore")
-
-
-def next_ulid() -> str:
-    """Return the next monotonic ULID (https://github.com/ulid/spec) as a string.
-
-    Returns:
-        str: New ULID in UUID format, ready to be used as Experiment or Run ID.
-    """
-    return str(uuid.UUID(bytes=ulid.new().bytes))  # str(uuid.UUID(bytes=ulid.new().bytes))
+    return df
 
 
 def chunker(seq: List, size) -> List[List]:

@@ -19,7 +19,7 @@ RUN pip3 install --upgrade pip
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
 
 # Install additional packages
-RUN apt-get -y install ssh htop git vim net-tools curl build-essential sqlite3
+RUN apt-get -y install ssh htop git vim net-tools curl build-essential sqlite3 psmisc
 
 # install nodejs
 RUN curl --insecure -sL https://deb.nodesource.com/setup_18.x -o /tmp/nodesource_setup.sh
@@ -27,7 +27,7 @@ RUN bash /tmp/nodesource_setup.sh
 RUN apt-get -y install build-essential nodejs
 
 # install npm packages globally
-RUN npm install next react react-dom -g
+# RUN npm install next react react-dom -g
 
 # Source the bashrc, used also with the services managed by supervisord.
 RUN echo "source /shared/bashrc" >>/root/.bashrc
@@ -42,10 +42,6 @@ RUN bash -c "source root/.cargo/env && pip install -r /tmp/requirements.txt"
 # install http proxy
 RUN apt-get -y install nginx apache2-utils
 RUN rm -f /etc/nginx/nginx.conf && ln -s /shared/nginx.conf /etc/nginx/nginx.conf 
-RUN htpasswd -bc /etc/nginx/htpasswd-demo demo demo
-RUN htpasswd -bc /etc/nginx/htpasswd-admin admin 'ksb2&6ITC8E5'
-RUN htpasswd -b /etc/nginx/htpasswd-demo admin 'ksb2&6ITC8E5'
-
 
 # Add Jupyter config
 RUN mkdir -p /root/.jupyter
@@ -59,13 +55,11 @@ RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 # Copy contents of shared folder
 ADD . /shared
 
-# Install npm packages
-#RUN cd /shared/web && npm install --loglevel verbose
-#RUN cd /shared/web && npm run build
+# Used to test if there's a mounted volume or not, showing a warning for data loss
+RUN echo > /shared/warning_no_mounted_volume
 
 # Add /shared to pythonpath: packages defined in this directory will be visible from Python.
 ENV PYTHONPATH /shared/src/
-
 
 # Change working directory
 WORKDIR /shared
@@ -73,11 +67,8 @@ WORKDIR /shared
 # Start supervisord, that takes care of running our services.
 CMD ["supervisord" , "--nodaemon", "--configuration=/shared/supervisord.conf"]
 # supervisord --nodaemon --configuration=/shared/supervisord.conf
-# CMD ["/bin/bash"]
+#CMD ["/bin/bash"]
 
 # Expose these TCP ports.
 EXPOSE 8080/tcp
-EXPOSE 1080/tcp
-EXPOSE 80/tcp
-
-EXPOSE 8000/tcp
+EXPOSE 8082/tcp

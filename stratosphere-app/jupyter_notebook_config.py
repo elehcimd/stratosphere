@@ -850,7 +850,7 @@ c.ServerApp.default_url = "lab"
 
 ## The IP address the Jupyter server will listen on.
 #  Default: 'localhost'
-c.ServerApp.ip = "0.0.0.0"
+c.ServerApp.ip = "0.0.0.0"  # noqa
 
 ## Supply extra arguments that will be passed to Jinja environment.
 #  Default: {}
@@ -880,7 +880,8 @@ c.ServerApp.ip = "0.0.0.0"
 
 ## The kernel websocket connection class to use.
 #  Default: 'jupyter_server.services.kernels.connection.channels.ZMQChannelsWebsocketConnection'
-# c.ServerApp.kernel_websocket_connection_class = 'jupyter_server.services.kernels.connection.channels.ZMQChannelsWebsocketConnection'
+# c.ServerApp.kernel_websocket_connection_class = \
+# 'jupyter_server.services.kernels.connection.channels.ZMQChannelsWebsocketConnection'
 
 ## DEPRECATED. Use ZMQChannelsWebsocketConnection.kernel_ws_protocol
 #  Default: ''

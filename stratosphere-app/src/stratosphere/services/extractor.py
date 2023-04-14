@@ -1,44 +1,52 @@
+import pkgutil
 import time
+from datetime import timedelta
+from importlib import import_module, invalidate_caches
 
-from stratosphere.utils.log import logger, init_logging
+import stratosphere.extractors
 from stratosphere.options import options
+from stratosphere.storage.models import Flow, time_now
 from stratosphere.stratosphere import Stratosphere
-from stratosphere.storage.models import Flow
+from stratosphere.utils.log import init_logging, logger
 
-from stratosphere.services.extractors.vk01 import extractor as extractor_vk01
-from stratosphere.services.extractors.search_google import extractor as extractor_search_google
-from stratosphere.services.extractors.dummy import extractor as dummy_extract
 
-import os
+def get_list_extractors():
+    return [module_name for _, module_name, _ in pkgutil.iter_modules(stratosphere.extractors.__path__)]
 
 
 class Extractor:
     def __init__(self, url=None):
         if url is None:
             url = options.get("db.url_probe")
-
         self.url = url
 
-        self.s_kb = Stratosphere(options.get("db.url_kb"))
-
-        self.extractors = {}
-        self.register_extractor(dummy_extract)
-        self.register_extractor(extractor_vk01)
-        self.register_extractor(extractor_search_google)
-
-    def register_extractor(self, extractor_desc):
-        self.extractors[extractor_desc["name"]] = extractor_desc["func"]
-
     def process(self):
-        self.s_probe = Stratosphere(self.url)
+        # Extractors can be added at any time, and we'll pick them up.
+        # In case new extractors are defined while the code is running, we need to invalidate
+        # the  importlib cache, s.t. we can scan find also new modules.
+        invalidate_caches()
+        extractor_funcs = []
+        for module_name in get_list_extractors():
+            logger.info(f"Found extractor: {module_name}")
+            m = import_module(f"stratosphere.extractors.{module_name}")
+            extractor_funcs.append(m.extract)
 
-        with self.s_probe.db.session() as session:
+        s_probe = Stratosphere(self.url)
+
+        # Drop entities and relationships tables: they're always empty
+        #  and if their schema changes, we shouldn't worry here.
+        # Entity.__table__.drop(s_probe.db.engine)
+        # Relationship.__table__.drop(s_probe.db.engine)
+
+        with s_probe.db.session() as session:
             rows = session.query(Flow).all()
-        logger.info(f"Processing {len(rows)} flows: start")
 
-        for extractor_func in self.extractors.values():
-            extractor_func(rows)
-        logger.info(f"Processing {len(rows)} flows: end")
+        logger.info(f"Processing {len(rows)} flows ...")
+        for extractor_func in extractor_funcs:
+            try:
+                extractor_func(rows)
+            except:  # noqa
+                continue
 
 
 def main():
@@ -47,22 +55,31 @@ def main():
 
     extractor = Extractor()
 
+    last_vacuum = None
+
     while True:
         logger.info("Processing new flows ...")
         extractor.process()
+        logger.info(f"Dropping expired flows (older than {options.get('extractors.expired_flows')}s)")
+        s_probe = Stratosphere(extractor.url)
+        with s_probe.db.session() as session:
+            session.query(Flow).filter(
+                Flow.flow_capture_timestamp <= time_now() - timedelta(seconds=options.get("extractors.expired_flows"))
+            ).delete()
+            session.commit()
 
-        # we might miss some flows here, if the probe writes to the file handler and we remove it
-        # before processing them.
-
-        # logger.info("Removing old flows ...")
-        try:
-            pass
-            os.remove("/shared/data/probe.db")
-        except OSError:
-            pass
-
-        # logger.info("Waiting for more flows ...")
-        time.sleep(10)
+        # Trigger VACUUM if:
+        # probe file size larger than vacuum_size_trigger AND
+        # last time triggered more than vacuum_min_delay seconds ago or first time
+        if s_probe.db.size() > options.get("extractors.vacuum_size_trigger") and (
+            last_vacuum is None
+            or last_vacuum + timedelta(seconds=options.get("extractors.vacuum_min_delay")) <= time_now()
+        ):
+            logger.info("VACUUM ...")
+            s_probe.db.vacuum()  # remove the records marked as deleted, freeing space.
+            last_vacuum = time_now()
+        logger.info(f"Waiting {options.get('extractors.loop_wait')}s")
+        time.sleep(options.get("extractors.loop_wait"))
 
 
 if __name__ == "__main__":

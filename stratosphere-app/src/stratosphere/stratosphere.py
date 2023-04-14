@@ -1,21 +1,22 @@
-from stratosphere.storage.database import Database
-from stratosphere.storage.models import Flow
 from stratosphere import options
-from stratosphere.version import __version__
+from stratosphere.storage.database import Database
+from stratosphere.storage.models import Flow, null_entity, null_relationship
 from stratosphere.utils.log import init_logging, logger
-from IPython.display import display
 
 
 class Stratosphere:
     def __init__(self, url: str = None):
         init_logging()
 
-        # logger.info(f"Stratosphere v{__version__} ({options.get('doc.url')}) initialized")
-
         if url is None:
             url = options.get("db.url")
 
         self.db = Database(url)
+
+        with self.db.session() as session:
+            session.merge(null_entity)
+            session.merge(null_relationship)
+            session.commit()
 
     def delete_all(self):
         with self.db.session() as session:

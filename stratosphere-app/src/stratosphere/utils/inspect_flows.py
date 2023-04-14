@@ -1,8 +1,9 @@
 import json
-import pandas as pd
-from IPython.display import display
+from textwrap import wrap
 from urllib.parse import parse_qs, urlparse
-from IPython.display import JSON
+
+import pandas as pd
+from IPython.display import JSON, display
 
 
 def pretty_print_dict(d, limit=None):
@@ -38,9 +39,6 @@ def is_json(data):
         return False
 
 
-from textwrap import wrap
-
-
 class InspectFlow:
     def __init__(self, s):
         self.s = s
@@ -48,8 +46,11 @@ class InspectFlow:
     def response_content_json(self):
         return json_loads(self.s.flow_response_content)
 
-    def search(self, patterns=[], only_matches=False, is_json=True):
+    def search(self, patterns=None, only_matches=False, is_json=True):
         s = self.s.copy()
+
+        if not patterns:
+            patterns = []
 
         if is_json:
             text = json.dumps(json_loads(s.flow_response_content), indent=2).lower()
@@ -73,7 +74,7 @@ class InspectFlow:
                 text = text[:150] + " [...]"
             return {"report": report, "text": text, "is_match": len(matches) > 0}
 
-        lines = [process_line(idx, l, patterns) for idx, l in enumerate(text.splitlines())]
+        lines = [process_line(idx, line, patterns) for idx, line in enumerate(text.splitlines())]
 
         # idx_matches = [line.idx for line in lines if line["is_match"]]
 
@@ -96,7 +97,7 @@ class InspectFlow:
         print("================================[URL]===========================================")
         print(f"METHOD: {self.s.flow_request_method}")
         print(f"URL: {self.s.flow_request_url}")
-        print(f"Query:")
+        print("Query:")
         display(JSON(query, expanded=True))
         print("================================[request-content]==============================")
 
@@ -159,7 +160,10 @@ class InspectFlows:
         ]
         display(df)
 
-    def analyze(self, patterns=[]):
+    def analyze(self, patterns=None):
+        if not patterns:
+            patterns = []
+
         df = self.df.copy()
         df.flow_capture_timestamp = pd.to_datetime(df.flow_capture_timestamp)
         # scheme://netloc/path;parameters?query#fragment

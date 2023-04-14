@@ -1,7 +1,6 @@
 import copy
 from contextlib import contextmanager
 
-
 default_options = {
     "db": {
         "url": "sqlite:///:memory:",
@@ -10,6 +9,7 @@ default_options = {
         "url_kb": "sqlite:////shared/data/kb.db",
         "echo": False,
         "pool_pre_ping": True,
+        "autoflush": False,
         "ask_password": False,
         "query_read_chunk_size": 1000,
         "query_write_chunk_size": 1000,
@@ -22,7 +22,7 @@ default_options = {
         "catch_exceptions": False,
         "clear_handlers_default_logger": True,
     },
-    "doc": {"url": "https://stratosphere.dev"},
+    "extractors": {"loop_wait": 10, "expired_flows": 10 * 60, "vacuum_size_trigger": 50, "vacuum_min_delay": 10 * 60},
 }
 
 

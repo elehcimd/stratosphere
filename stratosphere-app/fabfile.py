@@ -15,42 +15,45 @@ os.chdir(project_dir)
 
 
 @task
-def kill(ctx):
+def stop(ctx):
     with ctx.cd(project_dir):
         local(ctx, f"docker stop {project_name} 2>/dev/null >/dev/null || true")
 
 
 @task
 def dump(ctx):
-    kill(ctx)
+    stop(ctx)
     local(ctx, f"docker save -o {project_name}.docker-image {project_name}")
 
 
 @task
 def start(ctx):
-    kill(ctx)
+    stop(ctx)
     with ctx.cd(project_dir):
+        # --cap-add=SYS_PTRACE --security-opt=apparmor:unconfined :
+        # Makes the command line utility fuser work.
         local(
             ctx,
-            f"docker run --rm --name {project_name} -d -ti -p 127.0.0.1:80:80 -p 127.0.0.1:8080:8080 -p"
-            f" 127.0.0.1:8081:8081 -p 127.0.0.1:1080:1080 -p 127.0.0.1:8000:8000 -v {project_dir}/:/shared -t"
-            f" {project_name}".format(project_dir=project_dir),
+            f"docker run --rm --name {project_name} -d -ti -p 8080:8080 -p 127.0.0.1:8082:8082"
+            " --cap-add=SYS_PTRACE "
+            f"-v {project_dir}/:/shared {project_name}".format(project_dir=project_dir),
         )
 
-    print("\n\nIndex of services: http://127.0.0.1:80/api/static/index.html\n\n")
+    print("\n\nIndex of services: http://127.0.0.1:8082/\n\n")
 
 
 @task
 def start2(ctx):
-    kill(ctx)
+    stop(ctx)
+    build(ctx)  # we need to rebuild the image to align the contents of /shared
     with ctx.cd(project_dir):
         local(
             ctx,
-            f"docker run --rm --name {project_name} -d -ti -p 127.0.0.1:80:80 -t {project_name}".format(
-                project_dir=project_dir
-            ),
+            f"docker run --rm --name {project_name} -d -ti -p 127.0.0.1:8080:8080 -p 127.0.0.1:8082:8082"
+            f" {project_name}".format(project_dir=project_dir),
         )
-    print("\n\nIndex of services: http://127.0.0.1:80/api/static/index.html\n\n")
+
+    print("\n\nIndex of services: http://127.0.0.1:8082/\n\n")
 
 
 @task
@@ -60,7 +63,7 @@ def build(ctx):
 
 
 def local(ctx, *args, **kwargs):
-    print("Executing: {} {}".format(args, kwargs))
+    print(f"Executing: {args} {kwargs}")
     return ctx.run(*args, **kwargs)
 
 

@@ -1,0 +1,9 @@
+.vscode
+.DS_Store
+.pytest_cache
+.ruff_cache
+**/local
+**/*.ipynb_checkpoints
+**/__pycache__
+**/*.db
+
