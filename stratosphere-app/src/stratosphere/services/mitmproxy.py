@@ -4,12 +4,17 @@ import re
 
 from stratosphere import Stratosphere
 from stratosphere.storage.models import Flow
+from stratosphere.utils.log import init_logging, logger
+
+init_logging()
 
 
 # https://docs.mitmproxy.org/stable/addons-examples/#nonblocking
 async def response(flow):
     response_content_type = flow.response.headers.get("content-type")
     response_content_type_str = str(response_content_type)
+
+    logger.info(f"response_content_type: {response_content_type_str}")
 
     if (
         "text" not in response_content_type_str
@@ -18,8 +23,6 @@ async def response(flow):
         and "utf-8" not in response_content_type_str
     ):
         return
-
-    global flow_count
 
     while True:
         try:
