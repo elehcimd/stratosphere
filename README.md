@@ -178,6 +178,7 @@ have visibility on the flows intercepted in the last `10` minutes. You might wan
 
    * You should use the class `DuplicateRows` to ensure that duplicate entities and relationships are handled correctly, merging the contents of the `data` fields. Depending on your use case, you might need to implement a custom merge strategy.
    * The fields of `Flow` ORM objects map approximately to the attributes in the `Flow` objects in mitmproxy ([official documentation](https://docs.mitmproxy.org/stable/api/mitmproxy/flow.html)). For example, the field `flow_response_content` is documented [here](https://docs.mitmproxy.org/stable/api/mitmproxy/http.html#Response). The additional column `id` is a random UUID.
+   * `mitmproxy.py` is currently recording only flows whose response content type refers to tex to improve performance and reduce the database file size. If you want to capture images and other multimedia content, you might want to remove these filters.
 
 5. Test the new extractor extending `04 test extractors.ipynb`.
 
