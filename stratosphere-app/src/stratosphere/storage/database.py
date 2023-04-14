@@ -1,4 +1,5 @@
 import getpass
+import os
 from functools import partial
 from typing import Callable, Iterator, List, Union
 
@@ -12,7 +13,6 @@ from stratosphere.options import options
 from stratosphere.storage.models import Base
 from stratosphere.utils.log import logger
 from stratosphere.utils.progress import progress
-import os
 
 
 class Database:
