@@ -199,3 +199,4 @@ An overview of useful Docker parameters:
 * [-d](https://docs.docker.com/engine/reference/run/#detached-vs-foreground): Start the container in background.
 * [-it](https://docs.docker.com/engine/reference/run/#foreground): Allocate a pseudo-tty and keep STDIN open even if not attached. Useful if you want to access directly the container from terminal, via `docker execute`.
 * [-v](https://docs.docker.com/engine/reference/run/#volume-shared-filesystems): Bind mount a volume.
+* [--cap-add=SYS_PTRACE](https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities): Allow processes to use the ptrace system call, required to run the `utils/fuser_dbs.sh` script.

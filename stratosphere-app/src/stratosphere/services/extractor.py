@@ -10,6 +10,10 @@ from stratosphere.stratosphere import Stratosphere
 from stratosphere.utils.log import init_logging, logger
 
 
+def get_list_extractors():
+    return [module_name for _, module_name, _ in pkgutil.iter_modules(stratosphere.extractors.__path__)]
+
+
 class Extractor:
     def __init__(self, url=None):
         if url is None:
@@ -22,7 +26,7 @@ class Extractor:
         # the  importlib cache, s.t. we can scan find also new modules.
         invalidate_caches()
         extractor_funcs = []
-        for _, module_name, _ in pkgutil.iter_modules(stratosphere.extractors.__path__):
+        for module_name in get_list_extractors():
             logger.info(f"Found extractor: {module_name}")
             m = import_module(f"stratosphere.extractors.{module_name}")
             extractor_funcs.append(m.extract)
@@ -62,7 +66,10 @@ def main():
                 <= func_time_now() - timedelta(seconds=options.get("extractors.expired_flows"))
             ).delete()
             session.commit()
-        # s_probe.db.vacuum()  # remove the records marked as deleted, freeing space.
+
+        if s_probe.db.size() > options.get("extractors.vacuum_size_trigger"):
+            logger.info("VACUUM ...")
+            s_probe.db.vacuum()  # remove the records marked as deleted, freeing space.
         logger.info(f"Waiting {options.get('extractors.loop_wait')}s")
         time.sleep(options.get("extractors.loop_wait"))
 

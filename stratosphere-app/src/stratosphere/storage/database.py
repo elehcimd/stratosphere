@@ -12,6 +12,7 @@ from stratosphere.options import options
 from stratosphere.storage.models import Base
 from stratosphere.utils.log import logger
 from stratosphere.utils.progress import progress
+import os
 
 
 class Database:
@@ -64,6 +65,9 @@ class Database:
     def info(self):
         """Log some stats about the database."""
         logger.info(f"Database: {self.url.render_as_string(hide_password=True)}")
+
+    def size(self):
+        return os.path.getsize(self.url.database) / (1024 * 1024)
 
     def drop_table(self, name: str):
         """Drop database table if it exists.

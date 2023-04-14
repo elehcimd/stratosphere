@@ -30,10 +30,13 @@ def dump(ctx):
 def start(ctx):
     stop(ctx)
     with ctx.cd(project_dir):
+        # --cap-add=SYS_PTRACE --security-opt=apparmor:unconfined :
+        # Makes the command line utility fuser work.
         local(
             ctx,
-            f"docker run --rm --name {project_name} -d -ti -p 8080:8080 -p 127.0.0.1:8082:8082 -v"
-            f" {project_dir}/:/shared {project_name}".format(project_dir=project_dir),
+            f"docker run --rm --name {project_name} -d -ti -p 8080:8080 -p 127.0.0.1:8082:8082"
+            " --cap-add=SYS_PTRACE  "
+            f"-v {project_dir}/:/shared {project_name}".format(project_dir=project_dir),
         )
 
     print("\n\nIndex of services: http://127.0.0.1:8082/\n\n")
