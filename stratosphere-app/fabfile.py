@@ -35,7 +35,7 @@ def start(ctx):
         local(
             ctx,
             f"docker run --rm --name {project_name} -d -ti -p 8080:8080 -p 127.0.0.1:8082:8082"
-            " --cap-add=SYS_PTRACE  "
+            " --cap-add=SYS_PTRACE "
             f"-v {project_dir}/:/shared {project_name}".format(project_dir=project_dir),
         )
 
