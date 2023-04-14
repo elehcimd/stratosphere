@@ -15,5 +15,6 @@ jupyter lab \
     --VoilaConfiguration.file_whitelist "['.*']" \
     --MappingKernelManager.cull_interval=60 \
     --MappingKernelManager.cull_idle_timeout=120 \
-    --VoilaExecutor.timeout=30
+    --VoilaExecutor.timeout=30 \
+    --VoilaConfiguration.show_tracebacks=True
 #--debug
