@@ -45,6 +45,7 @@ def start(ctx):
 @task
 def start2(ctx):
     stop(ctx)
+    build(ctx)  # we need to rebuild the image to align the contents of /shared
     with ctx.cd(project_dir):
         local(
             ctx,
