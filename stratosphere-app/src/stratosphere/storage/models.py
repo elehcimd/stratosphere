@@ -10,7 +10,7 @@ Base = declarative_base()
 null_uuid = uuid.UUID(int=0).hex
 
 
-def func_time_now():
+def time_now():
     return datetime.now()
 
 
@@ -37,7 +37,7 @@ class Flow(Base):
     flow_response_headers_content_type = Column(String, nullable=True)
     flow_response_content = Column(LargeBinary, nullable=True)
     flow_response_timestamp_start = Column(DateTime, nullable=False)
-    flow_capture_timestamp = Column(DateTime, nullable=True, default=func_time_now)
+    flow_capture_timestamp = Column(DateTime, nullable=True, default=time_now)
 
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -70,5 +70,5 @@ class Relationship(Base):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
-null_entity = Entity(id=null_uuid, type="null", data=None, ts=func_time_now())
-null_relationship = Relationship(id=null_uuid, src=null_uuid, dst=null_uuid, type="null", data=None, ts=func_time_now())
+null_entity = Entity(id=null_uuid, type="null", data=None, ts=time_now())
+null_relationship = Relationship(id=null_uuid, src=null_uuid, dst=null_uuid, type="null", data=None, ts=time_now())

@@ -5,7 +5,7 @@ from importlib import import_module, invalidate_caches
 
 import stratosphere.extractors
 from stratosphere.options import options
-from stratosphere.storage.models import Flow, func_time_now
+from stratosphere.storage.models import Flow, time_now
 from stratosphere.stratosphere import Stratosphere
 from stratosphere.utils.log import init_logging, logger
 
@@ -55,6 +55,8 @@ def main():
 
     extractor = Extractor()
 
+    last_vacuum = None
+
     while True:
         logger.info("Processing new flows ...")
         extractor.process()
@@ -62,14 +64,20 @@ def main():
         s_probe = Stratosphere(extractor.url)
         with s_probe.db.session() as session:
             session.query(Flow).filter(
-                Flow.flow_capture_timestamp
-                <= func_time_now() - timedelta(seconds=options.get("extractors.expired_flows"))
+                Flow.flow_capture_timestamp <= time_now() - timedelta(seconds=options.get("extractors.expired_flows"))
             ).delete()
             session.commit()
 
-        if s_probe.db.size() > options.get("extractors.vacuum_size_trigger"):
+        # Trigger VACUUM if:
+        # probe file size larger than vacuum_size_trigger AND
+        # last time triggered more than vacuum_min_delay seconds ago or first time
+        if s_probe.db.size() > options.get("extractors.vacuum_size_trigger") and (
+            last_vacuum is None
+            or last_vacuum + timedelta(seconds=options.get("extractors.vacuum_min_delay")) <= time_now()
+        ):
             logger.info("VACUUM ...")
             s_probe.db.vacuum()  # remove the records marked as deleted, freeing space.
+            last_vacuum = time_now()
         logger.info(f"Waiting {options.get('extractors.loop_wait')}s")
         time.sleep(options.get("extractors.loop_wait"))
 

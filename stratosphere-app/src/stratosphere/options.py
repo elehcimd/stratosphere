@@ -22,7 +22,7 @@ default_options = {
         "catch_exceptions": False,
         "clear_handlers_default_logger": True,
     },
-    "extractors": {"loop_wait": 10, "expired_flows": 10 * 60, "vacuum_size_trigger": 50},
+    "extractors": {"loop_wait": 10, "expired_flows": 10 * 60, "vacuum_size_trigger": 50, "vacuum_min_delay": 10 * 60},
 }
 
 
