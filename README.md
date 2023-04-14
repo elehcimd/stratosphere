@@ -4,6 +4,7 @@
 
 * **Google sarch results**: Review your past Google search results
 * **vk.com contacts explorer**: Explore previously seen vk.com contacts, highlighting their connections
+* **Flows overview**: Overview of web traffic intercepted in the last 10 minutes
 
 You can also use the platform to quickly reverse-engineer HTTP/HTTPS web requests, including REST APIs. This lets you unlock the potential of private REST APIs, investigate GDPR breaches, and implement new scrapers to extend the knowledge base and power new web apps.
 
