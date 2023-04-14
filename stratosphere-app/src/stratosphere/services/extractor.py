@@ -1,14 +1,13 @@
-import os
 import pkgutil
 import time
+from datetime import timedelta
 from importlib import import_module, invalidate_caches
+
 import stratosphere.extractors
 from stratosphere.options import options
-from stratosphere.storage.models import Flow, Entity, Relationship, func_time_now
+from stratosphere.storage.models import Flow, func_time_now
 from stratosphere.stratosphere import Stratosphere
 from stratosphere.utils.log import init_logging, logger
-
-from datetime import timedelta
 
 
 class Extractor:
@@ -42,8 +41,8 @@ class Extractor:
         for extractor_func in extractor_funcs:
             try:
                 extractor_func(rows)
-            except:
-                continue  # noqa
+            except:  # noqa
+                continue
 
 
 def main():

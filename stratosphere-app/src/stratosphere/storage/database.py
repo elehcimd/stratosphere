@@ -1,5 +1,4 @@
 import getpass
-import uuid
 from functools import partial
 from typing import Callable, Iterator, List, Union
 
