@@ -78,39 +78,36 @@ def extract(rows):
 
                         user_id = companyUrnParts[-1]
 
-                        # user_id = data_part['$anti_abuse_metadata']
 
-                        # company = Entity(
-                        #     id=get_uuid_hash(dst_user_ids[0]),
-                        #     type="linkedin.com/company",
-                        #     data=json.dumps(
-                        #         {
-                        #             "user_ids": json.dumps(dst_user_ids),
-                        #             "url_picture": friend[1],
-                        #             "path": friend[2],
-                        #             "full_name": friend[5],
-                        #         }
-                        #     ),
-                        #     ts=row.flow_capture_timestamp,
-                        # )
+                        company = Entity(
+                            id=get_uuid_hash(company_id),
+                            type="linkedin.com/company",
+                            data=json.dumps(
+                                {
+                                    "company_id": company_id,
+                                    "full_name": data_part['companyName'],
+                                }
+                            ),
+                            ts=row.flow_capture_timestamp,
+                        )
 
-                        # dup_rows.add([company])
+                        dup_rows.add([company])
 
-                        # rel = Relationship(
-                        #     id=get_uuid_pair_hash(person1.id, company.id),
-                        #     type="linkedin.com/company",
-                        #     src=get_uuid_hash(user_id),
-                        #     dst=company.id,
-                        #     ts=row.flow_capture_timestamp,
-                        # )
+                        rel = Relationship(
+                            id=get_uuid_pair_hash(user_id, company_id),
+                            type="linkedin.com/company",
+                            src=get_uuid_hash(user_id),
+                            dst=company.id,
+                            ts=row.flow_capture_timestamp,
+                        )
 
-                        # dup_rows.add([rel])
+                        dup_rows.add([rel])
 
-                        # dup_rows.merge_and_commit()
+                        dup_rows.merge_and_commit()
                 
         except Exception as e:  # noqa
             logger.info(
-                f"Failed parsing linkedin.com person page for flow {row.flow_id} ({compact_exception_message(e)}), url:"
+                f"Failed parsing linkedin.com dashboard for flow {row.flow_id} ({compact_exception_message(e)}), url:"
                 f" {row.flow_request_url} request_content: {row.flow_request_content}"
             )
             continue
