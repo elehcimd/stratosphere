@@ -125,9 +125,11 @@ docker stop stratosphere-app
 **stratosphere**  automatically fetches people and company profiles as you explore and browse on linkedin.com, adding them to the database for later analysis.
 
 In the following example, the user explored a few contacts and their connections on linkedin.com.
+
 ![LinkedIn profile page](/docs/images/linkedin-explorer-01.png)
 
 Links from those results are displayed in the Google Search Notebook:
+
 ![Overview of profiles and relationships (companies) on linkedin.com](/docs/images/linkedin-explorer-03.png)
 
 
