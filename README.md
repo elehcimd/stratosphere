@@ -123,15 +123,6 @@ docker stop stratosphere-app
 ### Flow Analysis
 ### Webapps
 
-#### System overview
-
-In system overview, the user can review how many entities and relationships have been extracted, including also listing the active extractors (vk.com, linkedin.com, ...).
-
-
-
-
-![System overview 01](/docs/images/system-overview-01.png)
-
 #### vk.com contacts explorer
 
 
@@ -164,6 +155,14 @@ In the following example, the user has searched for 'Tenzing Norgay' on Google.
 
 Links from those results are displayed in the Google Search Notebook:
 ![Results from Tenzing Norgay search in Google Search Notebook](/docs/images/tenzing-googlesearch-notebook.jpg)
+
+
+#### System overview
+
+In system overview, the user can review how many entities and relationships have been extracted, including also listing the active extractors (vk.com, linkedin.com, ...).
+
+![System overview 01](/docs/images/system-overview-01.png)
+
 
 ### Extending Functionality
 You can add new Jupyter notebooks to analyze data from existing extractors, or new extractors to parse specific sites. 
