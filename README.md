@@ -1,5 +1,8 @@
-# The **stratosphere** Project
+# **stratosphere** Project
 
+## Team Members
+
+## Tool Description
 **stratosphere** is a free and open source OSINT platform that automatically collects every page you visit, building a private knowledge base you can analyze with Jupyter notebooks and an extensible suite of web apps including:
 
 * **Google search results**: Review your past Google search results
@@ -122,9 +125,16 @@ In the following example, the user has searched for 'Tenzing Norgay' on Google.
 Links from those results are displayed in the Google Search Notebook:
 ![Results from Tenzing Norgay search in Google Search Notebook](/docs/images/tenzing-googlesearch-notebook.jpg)
 
-## Extending Functionality
+### Extending Functionality
 You can add new Jupyter notebooks to analyze data from existing extractors, or new extractors to parse specific sites. 
 See [Extending Stratosphere](/docs/extend.md).
 
-## System Architecture
-See [System Architecture](/docs/architecture.md).
+## Additional Information
+* Potential Next steps
+* Limitations
+* Architecture Decisions
+The project uses UUIDs to identify entities (e.g. user, search result) and relationships between entities. 
+If an entity is encountered several times, potentially on different web pages, a stable UUID lets us 
+consolidate the knowledge in a unifying entity, merging the different data points.
+The process of generating UUIDs for entities was thus designed to be solid and robust.
+Further details on architecture can be found in [System Architecture](/docs/architecture.md). 
