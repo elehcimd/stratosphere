@@ -1,4 +1,4 @@
-# **stratosphere** Project
+# Bellingcat hackathon - **stratosphere** Project
 
 ## Team Members
 
