@@ -120,6 +120,15 @@ docker stop stratosphere-app
 
 ## Usage 
 
+### vk.com contacts explorer
+
+
+**stratosphere**  automatically fetches people's profiles from vk.com as you explore and browse the website, adding them to the database for later analysis.
+
+In the following example, the user explored a few profiles.
+
+![vk.com profile page](/docs/images/vk.com-01.png)
+
 ### LinkedIn contacts explorer
 
 **stratosphere**  automatically fetches people and company profiles as you explore and browse on linkedin.com, adding them to the database for later analysis.
