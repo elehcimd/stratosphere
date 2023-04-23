@@ -128,7 +128,7 @@ In the following example, the user explored a few contacts and their connections
 ![LinkedIn profile page](/docs/images/linkedin-explorer-01.png)
 
 Links from those results are displayed in the Google Search Notebook:
-![Overview of profiles and relationships (companies) on linkedin.com](/docs/images/linkedin-explorer-02.png)
+![Overview of profiles and relationships (companies) on linkedin.com](/docs/images/linkedin-explorer-03.png)
 
 
 ### Flow Analysis
