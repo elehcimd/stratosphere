@@ -169,7 +169,7 @@ See [Extending Stratosphere](/docs/extend.md).
 
 ## Additional Information
 
-* Potential Next steps: Cleanup code, fix errors on linkedin extractor, make application easier to install, trying to drop dependency from Docker.
+* Potential Next steps: Cleanup code, fix errors on linkedin extractor, make application easier to install, drop dependency from Docker, integrate with external APIs to further enrich entities and relationships in the knowledge graph.
 
 * Limitations: it requires to install Docker, could be easier. Due to its nature (passive scraping), **stratosphere** is now scraping as a bot, but it only collects information the user already retrieved during her manual usage.
 
@@ -182,5 +182,7 @@ See [Extending Stratosphere](/docs/extend.md).
   - The process of generating UUIDs for entities was thus designed to be solid and robust.
 
   - Different users can merge their knowledge graphs easily thanks to UUIDs, unifying the work of many OSINT researchers.
+
+  - Thanks to Jupyter notebooks and Voila, users can easily extend the available web apps.
 
   - Further details on architecture can be found in [System Architecture](/docs/architecture.md).
