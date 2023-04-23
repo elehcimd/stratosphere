@@ -120,7 +120,6 @@ docker stop stratosphere-app
 
 ## Usage 
 
-### Flow Analysis
 ### Webapps
 
 #### vk.com contacts explorer
@@ -169,11 +168,19 @@ You can add new Jupyter notebooks to analyze data from existing extractors, or n
 See [Extending Stratosphere](/docs/extend.md).
 
 ## Additional Information
-* Potential Next steps
-* Limitations
+
+* Potential Next steps: Cleanup code, fix errors on linkedin extractor, make application easier to install, trying to drop dependency from Docker.
+
+* Limitations: it requires to install Docker, could be easier. Due to its nature (passive scraping), **stratosphere** is now scraping as a bot, but it only collects information the user already retrieved during her manual usage.
+
 * Architecture Decisions
-The project uses UUIDs to identify entities (e.g. user, search result) and relationships between entities. 
-If an entity is encountered several times, potentially on different web pages, a stable UUID lets us 
-consolidate the knowledge in a unifying entity, merging the different data points.
-The process of generating UUIDs for entities was thus designed to be solid and robust.
-Further details on architecture can be found in [System Architecture](/docs/architecture.md). 
+
+  - The project uses UUIDs to identify entities (e.g. user, search result) and relationships between entities. 
+
+  - If an entity is encountered several times, potentially on different web pages, a stable UUID lets us consolidate the knowledge in a unifying entity, merging the different data points.
+
+  - The process of generating UUIDs for entities was thus designed to be solid and robust.
+
+  - Different users can merge their knowledge graphs easily thanks to UUIDs, unifying the work of many OSINT researchers.
+
+  - Further details on architecture can be found in [System Architecture](/docs/architecture.md).
