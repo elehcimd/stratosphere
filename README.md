@@ -82,8 +82,8 @@ You can access the dashboard by browsing to [http://localhost:8082](http://local
 
 Dashboard Options include:
 * Flow Analysis : Google Search Results
-* Web apps directory: Extractors that scrape pages (??), e.g. vk.com, LinkedIn
-* Object analysis: SQLite web interface (??) and Jupyter Lab notebooks (??)
+* Web apps directory: Complete list of web apps, including those not listed in the index page.
+* Object analysis: SQLite web interface to data base(SQL queries) and Jupyter Lab notebooks (querying and ad-hoc analyses with Python)
 
 
 ***Note:*** You may see the message `WARNING: No mounted volume detected on /shared`, informing you
