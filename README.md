@@ -10,6 +10,7 @@
 ## Tool Description
 **stratosphere** is a free and open source OSINT platform that automatically collects every page you visit, building a private knowledge base you can analyze with Jupyter notebooks and an extensible suite of web apps including:
 
+* **LinkedIn contacts and companies explorer**: Explore previously browsed LinkedIn profiles and companies
 * **Google search results**: Review your past Google search results
 * **vk.com contacts explorer**: Explore previously seen vk.com contacts, highlighting their connections
 * **Flows overview**: Overview of web traffic intercepted in the last 10 minutes
@@ -18,7 +19,7 @@ You can also use the platform to quickly reverse-engineer HTTP/HTTPS web request
 
 ## Installation
 
-**stratosphere** runs in a Docker container and uses [mitmproxy](https://mitmproxy.org/) to intercept web traffic for analysis. 
+**stratosphere** runs in a Docker container and uses [mitmproxy](https://mitmproxy.org/) to intercept web traffic for analysis.
 The following steps will install the image and set up your browser to use the proxy. 
 
 ### 1. Install Docker
