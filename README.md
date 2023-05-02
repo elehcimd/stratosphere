@@ -1,9 +1,11 @@
 # Bellingcat hackathon: **stratosphere** Project
 
+## Bellingcat Hackathon
 
-Honorable Mention on Bellingcat’s April 2023 Hackathon: Uses a proxy to automatically scrape and organise information when visiting several websites. The judges liked how it used existing workflows (navigating the web) to allow for knowledge extraction, even though its architecture is not easily accessible.
+The project received a  Honorable Mention on Bellingcat’s April 2023 Hackathon: 
 
->>>>>>> origin/main
+> Uses a proxy to automatically scrape and organise information when visiting several websites.
+> The judges liked how it used existing workflows (navigating the web) to allow for knowledge extraction, even though its architecture is not easily accessible.
 
 ## Team Members
 
