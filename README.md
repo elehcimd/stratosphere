@@ -7,7 +7,7 @@
 * Michele Dallachiesa, michele.dallachiesa@sigforge.com
 * Eric Brichetto, brichett13@gmail.com
 * Perry Borst, perryborst@gmail.com
-* Duplorers
+* Duplorers, generic.chance.argument@gmail.com
 
 ## Tool Description
 **stratosphere** is a free and open source OSINT platform that automatically collects every page you visit, building a private knowledge base you can analyze with Jupyter notebooks and an extensible suite of web apps including:
