@@ -1,19 +1,4 @@
-# Bellingcat hackathon: **stratosphere** Project
-
-## Bellingcat Hackathon
-
-The project received a  Honorable Mention on Bellingcat’s April 2023 Hackathon: 
-
-> Uses a proxy to automatically scrape and organise information when visiting several websites.
-> The judges liked how it used existing workflows (navigating the web) to allow for knowledge extraction, even though its architecture is not easily accessible.
-
-## Team Members
-
-* Michele Dallachiesa, michele.dallachiesa@sigforge.com
-* Eric Brichetto, brichett13@gmail.com
-* Perry Borst, perryborst@gmail.com
-* Duplorers, generic.chance.argument@gmail.com
-
+# Stratosphere
 
 ## Tool Description
 **stratosphere** is a free and open source OSINT platform that automatically collects every page you visit, building a private knowledge base you can analyze with Jupyter notebooks and an extensible suite of web apps including:
@@ -24,6 +9,17 @@ The project received a  Honorable Mention on Bellingcat’s April 2023 Hackathon
 * **Flows overview**: Overview of web traffic intercepted in the last 10 minutes
 
 You can also use the platform to quickly reverse-engineer HTTP/HTTPS web requests, including REST APIs. This lets you unlock the potential of private REST APIs, investigate GDPR breaches, and implement new scrapers to extend the knowledge base and power new web apps.
+
+## News - Honorable Mention on Bellingcat’s April 2023 Hackathon
+
+The project receives a "Honorable Mention" on Bellingcat’s April 2023 Hackathon: "The judges liked how it used existing workflows (navigating the web) to allow for knowledge extraction, even though its architecture is not easily accessible".
+
+Team members:
+
+* Michele Dallachiesa, michele.dallachiesa@sigforge.com
+* Eric Brichetto, brichett13@gmail.com
+* Perry Borst, perryborst@gmail.com
+* Duplorers, generic.chance.argument@gmail.com
 
 ## Installation
 
