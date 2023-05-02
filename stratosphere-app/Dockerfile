@@ -36,8 +36,12 @@ RUN echo "source /shared/bashrc" >>/root/.bashrc
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 RUN pip install --upgrade pip
 RUN pip install wheel
-ADD requirements.txt /tmp/requirements.txt
-RUN bash -c "source root/.cargo/env && pip install -r /tmp/requirements.txt"
+ADD requirements0.txt /tmp/requirements0.txt
+ADD requirements1.txt /tmp/requirements1.txt
+ADD requirements2.txt /tmp/requirements2.txt
+RUN bash -c "source root/.cargo/env && pip install -r /tmp/requirements0.txt"
+RUN bash -c "source root/.cargo/env && pip install -r /tmp/requirements1.txt"
+RUN bash -c "source root/.cargo/env && pip install -r /tmp/requirements2.txt"
 
 # install http proxy
 RUN apt-get -y install nginx apache2-utils

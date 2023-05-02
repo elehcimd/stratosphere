@@ -1,0 +1,5 @@
+mitmproxy==9.0.1
+beautifulsoup4==4.12.2
+voila==0.4.0
+Markdown==3.4.3
+pyvis==0.3.2

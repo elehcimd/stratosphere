@@ -119,14 +119,12 @@ class Database:
         """
 
         with self.session() as session:
-            df = pandas_query(
+            return pandas_query(
                 query,
                 session,
                 use_tqdm=use_tqdm,
                 tqdm_total=tqdm_total,
             )
-
-            return df
 
 
 def pandas_query(

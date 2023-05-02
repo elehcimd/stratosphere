@@ -1,11 +1,16 @@
-# **stratosphere** Project
+# Bellingcat hackathon: **stratosphere** Project
+
+
+Honorable Mention on Bellingcat’s April 2023 Hackathon: Uses a proxy to automatically scrape and organise information when visiting several websites. The judges liked how it used existing workflows (navigating the web) to allow for knowledge extraction, even though its architecture is not easily accessible.
+
 
 ## Team Members
 
 * Michele Dallachiesa, michele.dallachiesa@sigforge.com
 * Eric Brichetto, brichett13@gmail.com
 * Perry Borst, perryborst@gmail.com
-* Duplorers
+* Duplorers, generic.chance.argument@gmail.com
+
 
 ## Tool Description
 **stratosphere** is a free and open source OSINT platform that automatically collects every page you visit, building a private knowledge base you can analyze with Jupyter notebooks and an extensible suite of web apps including:
@@ -181,7 +186,19 @@ See [Extending Stratosphere](/docs/extend.md).
 
   - The process of generating UUIDs for entities was thus designed to be solid and robust.
 
+<<<<<<< HEAD
   - Different users can merge their knowledge graphs easily thanks to UUIDs, unifying the work of many OSINT researchers.
+=======
+### Code quality
+
+```
+ruff . --fix
+black .
+nbqa ruff . --fix   
+```
+
+### Useful Docker parameters
+>>>>>>> c800dbe (rev)
 
   - Thanks to Jupyter notebooks and Voila, users can easily extend the available web apps.
 

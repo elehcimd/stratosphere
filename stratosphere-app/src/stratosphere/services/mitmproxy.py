@@ -8,53 +8,57 @@ from stratosphere.utils.log import init_logging, logger
 
 init_logging()
 
+stratosphere = Stratosphere("sqlite:////shared/data/probe.db")
+
+
+def strlim(s, lim=35):
+    if len(s) > lim:
+        return s[:lim] + ".."
+    else:
+        return s
+
 
 # https://docs.mitmproxy.org/stable/addons-examples/#nonblocking
 async def response(flow):
-    response_content_type = flow.response.headers.get("content-type")
-    response_content_type_str = str(response_content_type)
-
-    logger.info(f"response_content_type: {response_content_type_str}")
+    global stratosphere
+    response_headers_lower = {k.lower(): v.lower() for k, v in flow.response.headers.items()}
+    response_content_type = str(response_headers_lower.get("content-type"))
+    logger.info(
+        f"{flow.request.host}:{flow.request.port} {flow.request.method} {strlim(flow.request.url)} <="
+        f" {strlim(response_content_type, 15)}"
+    )
 
     if (
-        "text" not in response_content_type_str
-        and "html" not in response_content_type_str
-        and "json" not in response_content_type_str
-        and "utf-8" not in response_content_type_str
+        "text" not in response_content_type
+        and "html" not in response_content_type
+        and "json" not in response_content_type
+        and "utf-8" not in response_content_type
     ):
         return
 
-    while True:
-        try:
-            stratosphere = Stratosphere("sqlite:////shared/data/probe.db")
-            with stratosphere.db.session() as session:
-                record = Flow(
-                    flow_request_host=flow.request.host,
-                    flow_request_port=flow.request.port,
-                    flow_request_method=flow.request.method,
-                    flow_request_pretty_url=flow.request.pretty_url,
-                    flow_request_url=flow.request.url,
-                    flow_request_http_version=flow.request.http_version,
-                    flow_request_headers=json.dumps(dict(flow.request.headers.items())),
-                    flow_request_headers_content_type=flow.request.headers.get("content-type"),
-                    flow_request_content=flow.request.content,
-                    flow_request_timestamp_start=datetime.datetime.fromtimestamp(flow.request.timestamp_start),
-                    flow_response_status_code=flow.response.status_code,
-                    flow_response_http_version=flow.response.http_version,
-                    flow_response_headers=json.dumps(dict(flow.response.headers.items())),
-                    flow_response_headers_content_type=flow.response.headers.get("content-type"),
-                    flow_response_content=flow.response.content,
-                    flow_response_timestamp_start=datetime.datetime.fromtimestamp(flow.response.timestamp_start),
-                )
-                session.add(record)
-                session.commit()
-        except:  # noqa
-            # It might happen that the extractor just dropped the file ...
-            # this causes an error (table not found, ...). We try again.
-            continue
-        break
+    with stratosphere.db.session() as session:
+        record = Flow(
+            flow_request_host=flow.request.host,
+            flow_request_port=flow.request.port,
+            flow_request_method=flow.request.method,
+            flow_request_pretty_url=flow.request.pretty_url,
+            flow_request_url=flow.request.url,
+            flow_request_http_version=flow.request.http_version,
+            flow_request_headers=json.dumps(dict(flow.request.headers.items())),
+            flow_request_headers_content_type=flow.request.headers.get("content-type"),
+            flow_request_content=flow.request.content,
+            flow_request_timestamp_start=datetime.datetime.fromtimestamp(flow.request.timestamp_start),
+            flow_response_status_code=flow.response.status_code,
+            flow_response_http_version=flow.response.http_version,
+            flow_response_headers=json.dumps(dict(flow.response.headers.items())),
+            flow_response_headers_content_type=flow.response.headers.get("content-type"),
+            flow_response_content=flow.response.content,
+            flow_response_timestamp_start=datetime.datetime.fromtimestamp(flow.response.timestamp_start),
+        )
+        session.add(record)
+        session.commit()
 
-    if flow.response and flow.response.content and "html" in response_content_type_str:
+    if flow.response and flow.response.content and "html" in response_content_type:
         # https://github.com/ondrakrat/js-mitm-proxy/blob/master/src/inject_script.py
         # delete CORS header if present
         # if "Content-Security-Policy" in flow.response.headers:
