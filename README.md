@@ -1,7 +1,8 @@
 # Stratosphere
 
 ## Tool Description
-**stratosphere** is a free and open source OSINT platform that automatically collects every page you visit, building a private knowledge base you can analyze with Jupyter notebooks and an extensible suite of web apps including:
+
+**stratosphere** is a free and open source OSINT experimentation platform that automatically collects every page you visit, building a private knowledge base you can analyze with Jupyter notebooks and an extensible suite of web apps including:
 
 * **LinkedIn contacts and companies explorer**: Explore previously browsed LinkedIn profiles and companies
 * **Google search results**: Review your past Google search results
@@ -10,9 +11,9 @@
 
 You can also use the platform to quickly reverse-engineer HTTP/HTTPS web requests, including REST APIs. This lets you unlock the potential of private REST APIs, investigate GDPR breaches, and implement new scrapers to extend the knowledge base and power new web apps.
 
-## News - Honorable Mention on Bellingcat’s April 2023 Hackathon
+## Latest updates
 
-The project receives a "Honorable Mention" on Bellingcat’s April 2023 Hackathon: "The judges liked how it used existing workflows (navigating the web) to allow for knowledge extraction, even though its architecture is not easily accessible".
+* 24/04/2023 **The project wins a "Honorable Mention" on Bellingcat’s April 2023 Hackathon**: "The judges liked how it used existing workflows (navigating the web) to allow for knowledge extraction, even though its architecture is not easily accessible".
 
 Team members:
 
