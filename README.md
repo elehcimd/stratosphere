@@ -1,5 +1,7 @@
 # Bellingcat hackathon - **stratosphere** Project
 
+**news!** We won an "Honorable Mention" at Bellingcat’s April 2023 Hackathon: The judges liked how it used existing workflows (navigating the web) to allow for knowledge extraction, even though its architecture is not easily accessible.
+
 ## Team Members
 
 * Michele Dallachiesa, michele.dallachiesa@sigforge.com
