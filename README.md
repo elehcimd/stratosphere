@@ -13,7 +13,7 @@ You can also use the platform to quickly reverse-engineer HTTP/HTTPS web request
 
 ## Latest updates
 
-* 24/04/2023 **The project wins a "Honorable Mention" on Bellingcat’s April 2023 Hackathon**: "The judges liked how it used existing workflows (navigating the web) to allow for knowledge extraction, even though its architecture is not easily accessible".
+* 24/04/2023 **The project wins a "Honorable Mention" at Bellingcat’s April 2023 Hackathon**: "The judges liked how it used existing workflows (navigating the web) to allow for knowledge extraction, even though its architecture is not easily accessible".
 
 Team members:
 
