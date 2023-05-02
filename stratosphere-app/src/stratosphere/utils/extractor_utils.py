@@ -82,7 +82,7 @@ class DuplicateRows:
 
             for row in rows[1:]:
                 data = json.loads(row.data) if row.data else {}
-                candidate_data = {**candidate_data, **data}
+                candidate_data = {**candidate_data, **{k: v for k, v in data.items() if v is not None}}
             candidate.data = json.dumps(candidate_data)
 
             self.dedup_rows.append(candidate)
@@ -93,7 +93,7 @@ class DuplicateRows:
 
             for row in rows[1:]:
                 data = json.loads(row.data) if row.data else {}
-                candidate_data = {**candidate_data, **data}
+                candidate_data = {**candidate_data, **{k: v for k, v in data.items() if v is not None}}
             candidate.data = json.dumps(candidate_data)
 
             self.dedup_rows.append(candidate)
@@ -102,3 +102,5 @@ class DuplicateRows:
             for row in self.dedup_rows:
                 session.merge(row)
             session.commit()
+
+        return self.dedup_rows

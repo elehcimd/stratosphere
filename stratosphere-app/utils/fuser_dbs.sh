@@ -19,9 +19,9 @@ do
                 do
                     if [ $first = "true" ]
                     then
-                        ps aux -q $pid
+                        ps aux -q $pid | cat
                     else
-                        ps aux -q $pid | grep -v PID
+                        ps aux -q $pid | grep -v PID | cat
                     fi
                     first="false"
                 done

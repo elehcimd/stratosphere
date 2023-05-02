@@ -1,0 +1,5 @@
+pandas==1.5.3
+jupyterlab==3.6.1
+supervisor==4.2.5
+sqlite-web==0.4.1
+SQLAlchemy==1.4.47

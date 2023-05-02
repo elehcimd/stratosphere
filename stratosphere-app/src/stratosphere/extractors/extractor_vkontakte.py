@@ -189,6 +189,6 @@ def track_friends(rows):
         logger.info(f"Added {len(friends)} friends of entity {person1.id}")
 
 
-def extract(rows):
-    track_friends(rows)
-    track_user(rows)
+def extract(rows, s_kb):
+    track_friends(rows, s_kb)
+    track_user(rows, s_kb)

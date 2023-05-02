@@ -1,6 +1,6 @@
 from stratosphere import options
 from stratosphere.storage.database import Database
-from stratosphere.storage.models import Flow, null_entity, null_relationship
+from stratosphere.storage.models import Entity, Flow, null_entity, null_relationship, null_uuid
 from stratosphere.utils.log import init_logging, logger
 
 
@@ -14,9 +14,10 @@ class Stratosphere:
         self.db = Database(url)
 
         with self.db.session() as session:
-            session.merge(null_entity)
-            session.merge(null_relationship)
-            session.commit()
+            if session.query(Entity.id).filter_by(id=null_uuid).first() is None:
+                session.add(null_entity)
+                session.add(null_relationship)
+                session.commit()
 
     def delete_all(self):
         with self.db.session() as session:
