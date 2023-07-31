@@ -186,9 +186,8 @@ See [Extending Stratosphere](/docs/extend.md).
 
   - The process of generating UUIDs for entities was thus designed to be solid and robust.
 
-<<<<<<< HEAD
   - Different users can merge their knowledge graphs easily thanks to UUIDs, unifying the work of many OSINT researchers.
-=======
+
 ### Code quality
 
 ```
@@ -198,8 +197,8 @@ nbqa ruff . --fix
 ```
 
 ### Useful Docker parameters
->>>>>>> c800dbe (rev)
 
-  - Thanks to Jupyter notebooks and Voila, users can easily extend the available web apps.
 
-  - Further details on architecture can be found in [System Architecture](/docs/architecture.md).
+- Thanks to Jupyter notebooks and Voila, users can easily extend the available web apps.
+
+- Further details on architecture can be found in [System Architecture](/docs/architecture.md).
